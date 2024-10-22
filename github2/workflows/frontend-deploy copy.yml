@@ -1,0 +1,40 @@
+name: Deploy Frontend to AWS ECS with HTTPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.ap-northeast-2.amazonaws.com
+
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          echo "NEXT_PUBLIC_NAVER_CLIENT_ID=${{ secrets.NEXT_PUBLIC_NAVER_CLIENT_ID }}" >> .env
+          echo "NEXT_PUBLIC_NAVER_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_NAVER_REDIRECT_URI }}" >> .env
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -t nextjs-frontend .
+          docker tag nextjs-frontend:latest <your-account-id>.dkr.ecr.ap-northeast-2.amazonaws.com/nextjs-frontend:latest
+          docker push <your-account-id>.dkr.ecr.ap-northeast-2.amazonaws.com/nextjs-frontend:latest
+
+      - name: Terraform Init and Apply
+        run: |
+          cd terraform/frontend
+          terraform init
+          terraform apply -auto-approve -var="backend_url=https://backend-service-url:8080"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "ap-northeast-2"
