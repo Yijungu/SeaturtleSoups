@@ -1,0 +1,27 @@
+[package]
+name = "turtle-backend"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[dependencies]
+actix-web = "4.0"
+serde = { version = "1.0", features = ["derive"] }
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+dotenv = "0.15"
+chrono = { version = "0.4", features = ["serde"] }
+sqlx = { version = "0.6", features = ["postgres", "runtime-tokio-native-tls", "chrono", "time", "macros"] }
+thiserror = "1.0"
+actix-cors = "0.6"
+jsonwebtoken = "8.2"
+serde_json = "1.0"
+aws-config = "1.5"  # 최신 안정 버전 사용
+aws-sdk-secretsmanager = "1.5"
+regex = "1.7"
+
+[build-dependencies]
+sqlx = { version = "0.6", features = ["offline"] }

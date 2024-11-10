@@ -1,0 +1,28 @@
+.scrollToTop {
+  position: sticky;
+  margin-top: 10px;
+  bottom: 10px; /* 스크롤 시 상단에서 140px 아래에 고정 */
+  align-self: flex-end;
+  z-index: 10;
+  opacity: 0;
+
+  /* 버튼이 보이는 상태 (visible 클래스 추가 시) */
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    bottom: 1.5rem; /* 모바일에서 여백 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    bottom: 1.8rem;
+    right: 1.8rem;
+    width: 60px;
+    height: 60px;
+  }
+}

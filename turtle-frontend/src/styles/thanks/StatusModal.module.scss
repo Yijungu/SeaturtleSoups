@@ -1,0 +1,71 @@
+.ModalContent {
+  background-color: var(--background);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  height: 450px;
+  opacity: 1;
+  transition: opacity 1s ease-out; /* 서서히 사라지는 애니메이션 */
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 90%; /* 화면 너비에 맞게 확장 */
+    height: auto; /* 콘텐츠에 맞게 높이 조정 */
+    padding: 15px; /* 패딩 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%; /* 태블릿에서 적절한 너비 */
+    height: auto;
+  }
+}
+
+.ModalClosing {
+  opacity: 0; /* 사라질 때 투명도 0 */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    gap: 15px; /* 간격 축소 */
+  }
+}
+
+.image {
+  width: 150px;
+  height: auto;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 120px; /* 작은 화면에 맞게 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 140px; /* 태블릿에서 적절한 크기 */
+  }
+}
+
+.message {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-color);
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 16px; /* 글자 크기 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 17px; /* 태블릿에서 적절한 크기 */
+  }
+}

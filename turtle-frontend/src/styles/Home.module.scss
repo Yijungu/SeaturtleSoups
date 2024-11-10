@@ -1,0 +1,11 @@
+.container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 2000px;
+    background-color: var(--background);
+    padding: 20px;
+  }
+  

@@ -1,0 +1,63 @@
+.headerContainer {
+  position: relative;
+  width: 1105px;
+  height: 117px;
+  top: 115px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 100%; /* 모바일에서는 전체 화면 너비 사용 */
+    height: auto; /* 높이를 내용에 맞게 자동 조정 */
+    top: 50px; /* 상단 여백 줄이기 */
+    padding: 10px; /* 내부 여백 추가 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 90%; /* 태블릿에서는 적절히 줄인 너비 */
+    height: auto; /* 높이 자동 조정 */
+    top: 80px; /* 상단 여백 조정 */
+    padding: 15px; /* 약간의 내부 여백 추가 */
+  }
+}
+
+.homeTitle {
+  color: var(text-color);
+  font-family: 'Titillium Web', sans-serif;
+  text-align: center;
+  font-weight: 700;
+  font-size: 48px;
+  letter-spacing: -0.5px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 32px; /* 작은 화면에서는 글자 크기 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 42px; /* 태블릿에서는 글자 크기 조정 */
+  }
+}
+
+.homeTitleSmall {
+  color: var(small-text-color);
+  text-align: center;
+  font-size: 19px;
+  margin-top: 20px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 14px; /* 작은 화면에서는 글자 크기 축소 */
+    margin-top: 10px; /* 타이틀 간 간격 줄이기 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 17px; /* 태블릿에서는 적절한 크기로 조정 */
+  }
+}

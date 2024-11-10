@@ -1,0 +1,195 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* 라이트모드 색상 */
+:root {
+  /* 공통 색상 */
+  --background: #ffffff;
+  --foreground: #171717;
+  --text-color: rgba(18, 36, 50, 1);
+  --text-color2: rgba(230, 230, 230, 1);
+  --small-text-color: rgba(85, 111, 135, 1);
+  --border-color: rgba(0, 0, 0, 0.1);
+
+  /* 링크 색상 */
+  --accent-color: #6096cc;
+  --accent-hover-color: #0056b3;
+
+  /* 질문 박스 색상 */
+  --question-box-color: hsl(214, 74%, 91%);
+  --question-box-color1: hsl(214, 74%, 91%);
+  --question-box-color2: rgba(18, 36, 50, 1);
+  --question-box-color3: #fdefef;
+  --question-box-color4: rgba(18, 36, 50, 1);
+  /* 버튼 색상 */
+  --primary-color: #1352ff;
+  --primary-hover-color: #104ecc;
+  --secondary-button-color: #f9f9f9;
+  --secondary-button-hover-color: #e7fbe9;
+  --give-up-button-hover-color: #fbe7e9;
+  --give-up-button-active-color: #c29497;
+
+  /* 체크박스 색상 */
+  --checkbox-checked: #3985db;
+  --checkbox-unchecked: #ccc;
+
+  /* 그림자 색상 */
+  --shadow-color: rgba(19, 36, 51, 0.24);
+  --bool: 0;
+
+  --input-border-color: #bdbdbd; /* 텍스트 박스 테두리 색상 */
+  --question-mode-color: #5db075; /* 질문 모드 버튼 색상 */
+  --question-mode-hover-color: #6a9c78; /* 질문 모드 호버 색상 */
+  --question-mode-active-color: #367247; /* 질문 모드 활성화 색상 */
+  --answer-mode-color: #db3e3e; /* 답변 모드 버튼 색상 */
+  --answer-mode-hover-color: #bf3232; /* 답변 모드 호버 색상 */
+  --answer-mode-active-color: #992525; /* 답변 모드 활성화 색상 */
+
+  --feedback-text-box : #ffffff;
+
+  --low-score-color: #FFF2F2; /* 낮은 점수 */
+  --medium-score-color: #F2FDFF; /* 중간 점수 */
+  --high-score-color: #F2FFF2; /* 높은 점수 */
+}
+
+/* 다크모드 색상 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --text-color: rgba(230, 230, 230, 1);
+    --text-color2: rgba(230, 230, 230, 1);
+    --small-text-color: rgba(120, 150, 170, 1);
+    --border-color: rgb(156, 156, 156);
+
+    --accent-color: #66b2ff;
+    --accent-hover-color: #3399ff;
+
+    --question-box-color: #337bd2;
+    --question-box-color1: #5a5a5a;
+    --question-box-color2: #bcd6fa;
+    --question-box-color3: #5a5a5a;
+    --question-box-color4: #fcaaaa;
+
+    --primary-color: #1a73e8;
+    --primary-hover-color: #155bb5;
+    --secondary-button-color: #333;
+    --secondary-button-hover-color: #444;
+    --give-up-button-hover-color: #5c2a2c;
+    --give-up-button-active-color: #a05d5f;
+
+    --checkbox-checked: #66b2ff;
+    --checkbox-unchecked: #555;
+
+    --shadow-color: rgba(255, 255, 255, 0.1);
+    --bool: 1;
+
+    --input-border-color: #555555;
+    --question-mode-color: #56c271;
+    --question-mode-hover-color: #3e7147;
+    --question-mode-active-color: #2a5232;
+
+    --answer-mode-color: #b43b3b;
+    --answer-mode-hover-color: #992f2f;
+    --answer-mode-active-color: #752424;
+
+    --feedback-text-box : #5a5a5a;
+
+    --low-score-color: rgba(122, 74, 74, 0.5); /* 낮은 점수 - 어두운 붉은색, 80% 불투명 */
+  --medium-score-color: rgba(74, 107, 122, 0.5); /* 중간 점수 - 어두운 청록색, 80% 불투명 */
+  --high-score-color: rgba(74, 122, 74, 0.5); /* 높은 점수 - 어두운 녹색, 80% 불투명 */
+  }
+}
+
+/* 수동 다크모드 지원 */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --text-color: rgba(230, 230, 230, 1);
+  --text-color2: rgba(230, 230, 230, 1);
+  --small-text-color: rgba(120, 150, 170, 1);
+  --border-color: rgb(156, 156, 156);
+
+  --accent-color: #66b2ff;
+  --accent-hover-color: #3399ff;
+
+  --question-box-color: #337bd2;
+  --question-box-color1: #5a5a5a;
+  --question-box-color2: #bcd6fa;
+  --question-box-color3: #5a5a5a;
+  --question-box-color4: #fcaaaa;
+
+  --primary-color: #1a73e8;
+  --primary-hover-color: #155bb5;
+  --secondary-button-color: #333;
+  --secondary-button-hover-color: #444;
+  --give-up-button-hover-color: #5c2a2c;
+  --give-up-button-active-color: #a05d5f;
+
+  --checkbox-checked: #66b2ff;
+  --checkbox-unchecked: #555;
+
+  --shadow-color: rgba(255, 255, 255, 0.1);
+  --bool: 1;
+
+  --input-border-color: #555555;
+  --question-mode-color: #56c271;
+  --question-mode-hover-color: #3e7147;
+  --question-mode-active-color: #2a5232;
+
+  --answer-mode-color: #b43b3b;
+  --answer-mode-hover-color: #992f2f;
+  --answer-mode-active-color: #752424;
+  --feedback-text-box : #5a5a5a;
+  --low-score-color: rgba(122, 74, 74, 0.5); /* 낮은 점수 - 어두운 붉은색, 80% 불투명 */
+  --medium-score-color: rgba(74, 107, 122, 0.5); /* 중간 점수 - 어두운 청록색, 80% 불투명 */
+  --high-score-color: rgba(74, 122, 74, 0.5); /* 높은 점수 - 어두운 녹색, 80% 불투명 */
+}
+
+// 바디 스타일
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+// HTML 및 Body 기본 설정
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  
+}
+
+// 컨테이너 설정
+.container {
+  width: 1440px;
+  max-width: 100%;
+  margin: auto;
+}
+
+// 유틸리티 클래스 설정
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+// React Modal 스타일
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}

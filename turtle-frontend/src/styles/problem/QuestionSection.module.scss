@@ -1,0 +1,74 @@
+.question_section {
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 50px;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    margin-top: 66px; /* 상단 여백 줄이기 */
+    margin-bottom: 15px;
+  }
+}
+
+.description {
+  color: var(--text-color);
+  font-size: 17px;
+  text-align: center;
+  line-height: 35px;
+  font-weight: 550;
+  margin-bottom: 15px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 15px; /* 글자 크기 축소 */
+    line-height: 30px; /* 줄 간격 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 16px; /* 태블릿에서 적절히 조정 */
+  }
+}
+
+.question_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
+  background-color: var(--question-box-color);
+  border-radius: 14px;
+  padding: 20px;
+  width: 650px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 90%; /* 화면에 맞게 너비 확장 */
+    padding: 15px; /* 패딩 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%; /* 태블릿에 맞게 너비 조정 */
+  }
+}
+
+.Question {
+  font-size: 19px;
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 17px; /* 작은 화면에서 글자 크기 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 18px; /* 태블릿에 맞게 조정 */
+  }
+}

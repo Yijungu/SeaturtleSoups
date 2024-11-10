@@ -1,0 +1,135 @@
+.detail {
+  position: relative;
+  top: 200px;
+  height: 1700px;
+
+  @media (max-width: 768px) {
+    top: 100px;
+    height: auto;
+    padding: 10px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    top: 150px;
+    height: auto;
+    padding: 15px;
+  }
+}
+
+.QnA_box {
+  width: 673px;
+  min-height: 200px;
+  margin-bottom: 40px;
+  display: block;
+  position: relative;
+  margin-top: 40px;
+
+  &:nth-of-type(2) {
+    margin-top: 100px;
+  }
+
+  &:nth-of-type(3) {
+    margin-top: 50px;
+  }
+
+  &:nth-of-type(4),
+  &:nth-of-type(5) {
+    margin-top: 100px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 90%;
+  }
+}
+
+.QnA_question {
+  color: var(--text-color);
+  width: 100%;
+  min-height: 50px;
+  position: relative;
+  text-align: left;
+  font-family: "Apple SD Gothic Neo", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.QnA_start {
+  width: 100%;
+  height: auto;
+  text-align: left;
+  font-size: 33px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  position: relative;
+  margin: 65px 0;
+  font-family: "Apple SD Gothic Neo", sans-serif;
+
+  @media (max-width: 768px) {
+    font-size: 28px;
+    margin: 40px 0;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 30px;
+    margin: 50px 0;
+  }
+}
+
+.QnA_answer {
+  color: var(--text-color);
+  width: 100%;
+  min-height: 100px;
+  position: relative;
+  text-align: left;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  line-height: 1.8;
+  word-break: keep-all;
+  margin-bottom: 20px;
+
+  a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: var(--accent-hover-color);
+    }
+  }
+
+  .bold-word {
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.A_dot {
+  position: relative;
+  color: var(--text-color);
+  left: 0px;
+  top: 5px;
+  font-size: 20px;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 19px;
+  }
+}
+

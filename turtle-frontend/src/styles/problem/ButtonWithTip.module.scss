@@ -1,0 +1,137 @@
+.round_button {
+  position: sticky;
+  margin-top: 10px;
+  bottom: 50px; /* 스크롤 시 상단에서 140px 아래에 고정 */
+  align-self: flex-end;
+  z-index: 10;
+  opacity: 1;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    bottom: 4rem; /* 모바일에서 여백 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    bottom: 1.8rem;
+    right: 1.8rem;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.tip-content {
+  position: absolute;
+  bottom: 0px;
+  right: 60px;
+  z-index: 1001;
+  background-color: var(--background);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+  width: 300px;
+  border: 1px solid #ddd;
+  animation: fadeIn 0.5s ease-in-out;
+  font-family: 'Arial', sans-serif;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    right: 50px; /* 우측으로 더 가깝게 */
+    width: 300px; /* 작은 화면에서 너비 줄이기 */
+    padding: 15px; /* 내부 여백 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    bottom: 30px;
+    right: 40px;
+    max-width: 320px;
+    padding: 18px;
+  }
+}
+
+.tip-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #4CAF50;
+  text-align: center;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 18px; /* 글자 크기 축소 */
+  }
+}
+
+.tip-content p {
+  margin: 8px 0;
+  margin-left: 22px;
+  font-size: 14px;
+  color: var(small-text-color);
+  line-height: 1.5;
+  font-weight: 500;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    margin-left: 16px; /* 좌측 여백 축소 */
+    font-size: 13px;
+  }
+}
+
+.tip-content ol {
+  margin: 10px 0;
+  padding-left: 20px;
+  color: var(small-text-color);
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    padding-left: 16px; /* 리스트 내부 간격 조정 */
+  }
+}
+
+.tip-content li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(small-text-color);
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 13px; /* 글자 크기 줄이기 */
+  }
+}
+
+.tip-content li + p {
+  margin-top: -5px;
+  margin-left: 16px;
+  font-size: 13px;
+  color: var(small-text-color);
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    margin-left: 0px; /* 좌측 여백 축소 */
+    font-size: 12px;
+  }
+}
+
+.slide-enter {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 500ms, opacity 500ms;
+}
+
+.slide-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide-exit-active {
+  transform: translateX(100px);
+  opacity: 0;
+  transition: transform 500ms, opacity 500ms;
+}

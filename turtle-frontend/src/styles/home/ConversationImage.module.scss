@@ -1,0 +1,27 @@
+.conversationBox {
+  position: relative;
+  display: flex; 
+  justify-content: center;
+  align-items: center; /* 수직 중앙 정렬 */
+  height: 320px;
+  position: relative;
+  top: 200px;
+  background-color: var(background); /* 배경색 */
+  border-radius: 8px; /* 모서리 둥글게 */
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto; /* 높이 자동 조정 */
+    top: 100px; /* 상단 여백 줄이기 */
+    padding: 20px; /* 내부 여백 추가 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%; /* 태블릿 화면에 맞게 너비 조정 */
+    height: 280px; /* 적당한 높이로 조정 */
+    top: 150px; /* 상단 여백 조정 */
+    padding: 15px; /* 내부 여백 추가 */
+  }
+}

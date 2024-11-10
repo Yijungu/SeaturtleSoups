@@ -1,0 +1,31 @@
+// components/ThemeToggle.scss
+
+.theme_toggle_button {
+    position: absolute;
+    color: var(--foreground);
+    width: 100%;
+    top : -30px;
+    padding: 0px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    z-index: 1;
+  
+    &:hover {
+      background-color: var(--hover-color);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 13px;
+        top: -30px
+      }
+  }
+  
+  

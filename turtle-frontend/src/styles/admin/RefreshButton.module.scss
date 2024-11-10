@@ -1,0 +1,19 @@
+.refreshButton {
+    top: 10px;
+    right: 140px;
+    margin-top: 15px;
+    padding: 5px 10px;
+    background-color: #3ee7a6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: absolute;
+    font-size: 10px;
+  
+    &:hover {
+      background-color: #42ad89;
+    }
+  }
+  

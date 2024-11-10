@@ -1,0 +1,64 @@
+let first_request_body = json!({
+            "model": "gpt-4o-mini-2024-07-18",
+            "messages": [
+        {
+            "role": "system",
+            "content": format!(
+                "당신의 임무는 다음과 같습니다:\n\n1. 질문 속 모든 단어들의 정의를 엄격히 재단하세요. 그런 다음 질문의 의미를 정확히 파악하세요. 예를 들어, 사진은 사진기를 통해서 찍은 사진만을 말합니다.\n2.위의 단계를 토대로 질문의 의도를 정확히 파악하세요."
+            )
+        },
+        {
+            "role": "user",
+            "content": format!(
+                "'{}' 따옴표 안에 있는 질문의 의도를 파악한 뒤 AI가 잘 이해할 수 있도록 다시 작성해주세요. 추가적인 설명이나 정보는 제공하지 마세요.",
+                prompt_input
+            )
+        }
+    ],
+            "max_tokens": 100,
+            "temperature": 0.0
+        });
+
+        // 두 번째 요청 보내기
+        let first_res = client
+            .post("https://api.openai.com/v1/chat/completions")
+            .header("Authorization", format!("Bearer {}", api_key))
+            .json(&first_request_body)
+            .send()
+            .await?;
+
+        if first_res.status() != StatusCode::OK {
+            return Err("Unexpected status code".into());
+        }
+
+        let first_request_body: ChatResponse = first_res.json().await?;
+        let first_result = first_request_body
+            .choices
+            .get(0)
+            .map(|choice| choice.message.content.clone())
+            .ok_or("Empty response")?;
+
+
+
+"당신은 바다거북수프 게임의 사회자입니다. 다음에 문제와 이야기가 주어집니다.\n\n문제: {}\n부분 이야기: {}\n\n당신의 임무는 다음과 같습니다:\n\n1. 질문 속 모든 단어들의 정의를 엄격히 재단하세요. 그런 다음 질문의 의미가 이야기와 완벽히 일치되는지 정확히 판단하세요. 모든 단어들의 의미가 완벽히 들어맞아야 합니다. 예를 들어, 사진은 그림을 뜻하지 않고 사진기를 통해서 찍은 사진만을 뜻합니다. \n2. 부분 이야기를 깊이 있게 분석하여 부분 이야기에는 나와있지 않은 숨겨진 진실과 배경을 알아내세요. 알아낸 것을 토대로 하나의 전체 이야기를 이해하세요.\n3. 문제 해결에 상관있는 지 질문인지 판단하세요.\n4. 주어진 질문이 예 아니오로 명확하게 답을 제공할 수 있는 질문인지 판단하세요.\n5. 질문이 이야기의 핵심을 짚는 지 판단하세요.\n6. 위의 결과에 따라 질문의 중요도를 평가해주세요. 답을 '질문의 중요도 : ?/10' 으로만 제공하세요. 절대로 추가적인 설명이나 정보는 제공하지 마세요.",
+
+
+let second_request_body = json!({
+        "model": "gpt-4o-mini-2024-07-18",
+        "messages": [
+            {"role": "system", "content": format!(
+                "당신은 바다거북수프 게임의 사회자입니다.\n\n문제: {}\n\n부분 이야기: {}\n\n당신의 임무는 다음과 같습니다:\n\n1. 부분 이야기를 깊이 있게 분석하여 부분 이야기에는 나와있지 않은 숨겨진 배경과 문제에 대한 답을 알아내세요.\n2 주어진 정답 속 모든 단어들의 정의를 엄격히 재단하세요. 그런 다음 정답의 의미가 이야기와 완벽히 일치되는지 정확히 판단하세요.\n3. 1번에서 알아낸 답이 들어가있는 지 입력으로 들어온 정답에 들어있는 지 판단하세요. 위의 단계들을 통해 주어진 정답을 맞는 지를 판단하세요. 답은 '맞습니다.' 또는 '틀립니다.'로 제공하세요. 추가적인 설명이나 정보는 제공하지 마세요.",
+                story.question,
+                story.answer,
+            )},
+            {"role": "user", "content": format!(
+                "이야기의 핵심을 알아내세요."
+            )},
+            {"role": "user", "content": format!(
+                "위에서 알아낸 이야기의 핵심을 가지고 정답을 판단해주세요. 정답 : {}",
+                prompt_input,
+            )}
+        ],
+        "max_tokens": 1000,
+        "temperature": 0.0
+    });

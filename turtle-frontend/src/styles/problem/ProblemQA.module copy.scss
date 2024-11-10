@@ -1,0 +1,136 @@
+.container {
+  display: flex;
+  position: relative;
+  left: 2px;
+  flex-direction: column;
+  width: 650px;
+  overflow: visible;
+  margin-top: 20px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 90%; /* 작은 화면에서 전체 너비 사용 */
+    margin-top: 15px;
+    left: 0; /* 왼쪽 정렬 해제 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%; /* 태블릿에 맞춰 너비 조정 */
+    margin-top: 18px;
+  }
+}
+
+.box,
+.detail-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 45px;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top: 0.01px solid black;
+
+  /* Box-specific colors */
+  &.box {
+    background-color: #f3f3f3;
+  }
+
+  &.detail-box {
+    background-color: #fafafa;
+  }
+}
+
+.typography {
+  font-size: 14px;
+  color: #454545;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 12px; /* 작은 화면에서는 글자 크기 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 13px;
+  }
+}
+
+.toggle-button {
+  position: absolute;
+  right: 13px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    right: 8px; /* 작은 화면에서는 위치 조정 */
+  }
+}
+
+.reroll-button,
+.reask-button,
+.problem-check-icon {
+  position: absolute;
+
+  /* 공통 스타일 */
+  &.reroll-button {
+    top: 65px;
+    right: 13px;
+  }
+
+  &.reask-button {
+    top: 63px;
+    right: 43px;
+  }
+
+  &.problem-check-icon {
+    top: 120px;
+    right: 13px;
+  }
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    right: 10px; /* 오른쪽 정렬 조정 */
+  }
+}
+
+.graph-icon {
+  width: 20px;
+  height: 15px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 15px; /* 작은 화면에서는 크기 축소 */
+    height: 12px;
+  }
+}
+
+.delete-button {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+
+  button {
+    position: absolute;
+    border: 0.1px solid #121212;
+    border-radius: 5px;
+    background-color: #ffffff;
+    transition: opacity 0.3s;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &.visible {
+      opacity: 1;
+    }
+  }
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 25px; /* 버튼 크기 축소 */
+    height: 25px;
+  }
+}

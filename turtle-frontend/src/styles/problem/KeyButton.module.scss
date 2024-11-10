@@ -1,0 +1,67 @@
+.container {
+  position: relative;
+}
+
+.roundButtonKey {
+  position: fixed;
+  bottom: 100px;
+  right: 9px;
+  border: none;
+  background-color: transparent;
+  z-index: 1001;
+  cursor: pointer;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    bottom: 70px; /* 더 위로 이동 */
+    right: 15px; /* 조금 안쪽으로 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    bottom: 80px; /* 태블릿에서 적당히 조정 */
+    right: 20px;
+  }
+}
+
+.keyText {
+  position: fixed;
+  bottom: 40px;
+  right: 60px;
+  z-index: 1001;
+  background-color: rgba(255, 255, 255, 0);
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    bottom: 30px; /* 더 아래로 이동 */
+    right: 15px; /* 화면에 맞게 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    bottom: 35px; /* 태블릿에서 적당한 위치 */
+    right: 30px;
+  }
+}
+
+.slide-enter {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 500ms, opacity 500ms;
+}
+
+.slide-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide-exit-active {
+  transform: translateX(100px);
+  opacity: 0;
+  transition: transform 500ms, opacity 500ms;
+}

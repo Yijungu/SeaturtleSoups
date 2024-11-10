@@ -1,0 +1,124 @@
+/* 3D 회전 컨테이너 */
+.flipContainer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  perspective: 1000px; /* 3D 효과 부여 */
+  position: relative;
+  margin: 20px 0;
+  background-color: var(--secondary-button-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--shadow-color); /* 그림자 */
+  text-align: center;
+  backface-visibility: hidden;
+}
+
+/* 앞면과 뒷면 공통 스타일 */
+.front{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  background-color: var(--secondary-button-color);
+  box-shadow: 0 4px 8px var(--shadow-color); /* 그림자 */
+  backface-visibility: hidden;
+  border-radius: 12px;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  background-color: var(--secondary-button-color);
+  box-shadow: 0 4px 8px var(--shadow-color); /* 그림자 */
+  backface-visibility: hidden;
+  border-radius: 12px;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+/* 앞면 초기 상태 */
+.front {
+  transform: rotateX(0deg);
+  opacity: 1;
+  background-color: var(--secondary-button-color);
+
+  h2{
+    margin-top: 35px;
+  }
+}
+
+/* 뒷면 초기 상태 */
+.back {
+  transform: rotateX(-180deg);
+  opacity: 0;
+  background-color: var(--secondary-button-color);
+}
+
+/* 플립된 상태 */
+.flipped .front {
+  transform: rotateX(180deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flipped .back {
+  transform: rotateX(0deg);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Stars container */
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* 별점 스타일 */
+.star {
+  cursor: pointer;
+  font-size: 2rem;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+/* Textarea 스타일 */
+.textarea {
+  width: 90%;
+  margin: 20px auto;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: var(--feedback-text-box);
+  resize: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+}
+
+/* 제출 버튼 스타일 */
+.ratingButtonBox {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+

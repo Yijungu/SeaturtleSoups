@@ -1,0 +1,38 @@
+.loading {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 50px;
+  height: 20px;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 40px; /* 작은 화면에 맞게 너비 축소 */
+    height: 15px; /* 높이 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 45px; /* 태블릿에 맞게 조정 */
+    height: 18px;
+  }
+}
+
+.loading > div {
+  background: rgb(150, 150, 150);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 5px; /* 점 크기 축소 */
+    height: 5px;
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 6px;
+    height: 6px;
+  }
+}

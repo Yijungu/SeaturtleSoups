@@ -1,0 +1,123 @@
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Spread across the width */
+  width: 650px;
+  margin: 0 auto;
+  padding: 10px 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    width: 90%; /* 화면에 맞게 확장 */
+    gap: 12px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 90%; /* 태블릿에 맞게 너비 조정 */
+  }
+}
+
+.leftButtons {
+  display: flex;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    gap: 8px; /* 간격 축소 */
+  }
+}
+
+.questionCheckBox {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background-color: var(--secondary-button-color);
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px var(--shadow-color);
+
+  @media (max-width: 768px) {
+    align-items: stretch;
+    padding: 8px 50px;
+  }
+}
+
+.checkOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--small-text-color);
+  transition: color 0.2s ease-in-out;
+  gap: 6px;
+
+  &:hover {
+    color: var(--checkbox-checked);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px; /* 글자 크기 축소 */
+  }
+}
+
+.checked,
+.unchecked {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; /* 원형 인디케이터 */
+  transition: background-color 0.3s;
+}
+
+.checked {
+  background-color: var(--checkbox-checked);
+  border: 2px solid var(--checkbox-checked);
+}
+
+.unchecked {
+  background-color: transparent;
+  border: 2px solid var(--checkbox-unchecked);
+}
+
+.actionButtonHint,
+.actionButtonGiveUp {
+  min-width: 80px;
+  height: 36px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: var(--secondary-button-color);
+  color: var(--foreground);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0px 2px 4px var(--shadow-color);
+
+  &:hover {
+    background-color: var(--secondary-button-hover-color);
+  }
+
+  &:active {
+    background-color: var(--give-up-button-active-color);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%; /* 버튼이 화면 너비에 맞게 확장 */
+    font-size: 13px; /* 글자 크기 축소 */
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 14px;
+  }
+}
+
+.actionButtonGiveUp {
+  &:hover {
+    background-color: var(--give-up-button-hover-color);
+  }
+
+  &:active {
+    background-color: var(--give-up-button-active-color);
+  }
+}

@@ -1,0 +1,87 @@
+.ModalContent {
+  background-color: var(--secondary-button-color); /* 배경 색상 */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--shadow-color); /* 그림자 색상 */
+  width: 300px;
+  max-width: 90%; /* 반응형 조정 */
+  padding: 20px;
+  text-align: center;
+  animation: slideDown 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    width: 70%;
+    padding: 15px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%;
+    padding: 18px;
+  }
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide-down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Button container styling */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+  color: var(--text-color2); /* 보조 텍스트 색상 */
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Base button styling */
+.modalButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: var(--text-color2); /* 기본 텍스트 색상 */
+  font-weight: bold;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+/* Confirm button styling (green) */
+.modalButton:not(.cancel) {
+  background-color: var(--question-mode-color); /* 라이트모드: 초록색 */
+  
+  &:hover {
+    background-color: var(--question-mode-hover-color); /* 호버 시 어두운 초록색 */
+  }
+}
+
+/* Cancel button styling (red) */
+.cancel {
+  background-color: var(--answer-mode-color); /* 라이트모드: 빨간색 */
+
+  &:hover {
+    background-color: var(--answer-mode-hover-color); /* 호버 시 어두운 빨간색 */
+  }
+}

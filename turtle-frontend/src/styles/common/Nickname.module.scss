@@ -1,0 +1,56 @@
+.nicknameContainer {
+  position: absolute;
+  top: 5px;
+  right: 133px;
+  width: 155px;
+  height: 40px;
+  display: flex;
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: end; /* 프로필 사진과 닉네임 사이 간격 조정 */
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    position: absolute; /* 절대 위치 해제 */
+    width: 100%; /* 전체 너비 사용 */
+    margin-top: 10px; /* 위쪽에 여백 추가 */
+    right: 5px
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    right: 50px; /* 태블릿 화면에 맞게 오른쪽 여백 조정 */
+  }
+}
+
+.profilePhoto {
+  width: 36px;
+  height: 36px;
+  filter: invert(0.5);
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px; /* 모바일에서 크기 축소 */
+  }
+}
+
+.nickname {
+  color: var(--text-color);
+  width: 130px;
+  text-align: center;
+  background-color: transparent;
+  font-family: "Apple SD Gothic Neo", sans-serif;
+  font-size: 12px;
+  padding: 5px; /* 입력란 안쪽 여백 */
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 10px; /* 작은 화면에서는 글자 크기 축소 */
+    width: 100px; /* 너비 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 11px; /* 태블릿에서 약간 작은 글자 크기 */
+  }
+}

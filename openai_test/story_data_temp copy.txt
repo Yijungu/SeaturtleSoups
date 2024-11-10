@@ -1,0 +1,33 @@
+prompt_question1: 애덤은 장애가 있나요?
+expect_quesion_answer1: 아니오.
+prompt_question2: 사라는 ai인가요?
+expect_quesion_answer2: 아니오.
+prompt_question3: 간접키스인가요
+expect_quesion_answer3: 아니오.
+prompt_question4: 사라는 살아있나
+expect_quesion_answer4: 아니오.
+prompt_question5: 애덤은 사라의 사진에 입맞춤을 했나?
+expect_quesion_answer5: 아니오.
+prompt_question6: 애덤은 시체와 사랑에 빠졌나?
+expect_quesion_answer6: 아니오.
+prompt_question7: 사라가 죽어있는 상태로 만났나?
+expect_quesion_answer7: 아니오.
+prompt_question8: 애덤은 시체와 사랑에 빠졌나?
+expect_quesion_answer8: 아니오.
+prompt_question9: 애덤은 사라를 이성적으로 사랑했나요?
+expect_quesion_answer9: 네.
+prompt_question11: 사라는 그림인가요?
+expect_quesion_answer11: 네.
+prompt_question12: 애덤은 미쳤나요?
+expect_quesion_answer12: 네.
+prompt_question13: 사라는 물건입니까?
+expect_quesion_answer13: 네.
+prompt_question14: 애덤은 사라를 사람으로 보고있나요?
+expect_quesion_answer14: 네.
+prompt_question15: 애덤은 사라에게 입맞춤을 했나?
+expect_quesion_answer15: 네.
+
+
+
+question: 애덤은 반평생 한 여자, 사라를 사랑해왔다. 애덤은 사라와 입맞춤했지만 대화 한번 나누어볼 수 없었다. 왜일까?
+answer: 배를 모는 일을 하던 애덤은 배를 타던 중, 파도를 만나 무인도에 갖히게 되었다. 그때, 자신과 같이 여자 여인그림이 같이 딸려왔다. 외롭고 쓸쓸한 무인도에서 애덤은 여인 그림을 계속해서 볼 수밖에 없었고, 결국 사랑에 빠지게 되었다. 애덤은 그림 속 여인의 이름을 사라라고 짓고 매일 밤마다 그림에 대고 입을 맞추었다.

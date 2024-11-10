@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: 2px;
+  width: 650px;
+  overflow: visible;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    left: 0;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%;
+  }
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--background); /* 보조 버튼 색상 */
+  min-height: 45px;
+  padding: 0 10px;
+  border-top: 0.5px solid var(--border-color); /* 테두리 색상 */
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  border-radius: 10px;
+
+  & > img {
+    transform: rotate(10deg);
+  }
+}
+
+.detail-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 45px;
+  padding: 0 10px;
+  border-top: 0.1px solid var(--shadow-color);
+  border-bottom: 0.5px solid var(--border-color);
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  border-radius: 10px;
+}
+
+.typography {
+  font-size: 14px;
+  color: var(--text-color); /* 작은 텍스트 색상 */
+  line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 13.5px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 13.5px;
+  }
+}
+
+.percentage{
+  color: var(--text-color);
+  font-size: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+.delete-button {
+  position: absolute;
+  width: 30px;
+  height: 20px;
+  right: 10px;
+
+  button {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background-color: var(--give-up-button-hover-color); /* 포기 버튼 호버 색상 */
+    transition: opacity 0.3s, transform 0.3s;
+    cursor: pointer;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.8);
+    }
+
+    &.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 18px;
+  }
+}

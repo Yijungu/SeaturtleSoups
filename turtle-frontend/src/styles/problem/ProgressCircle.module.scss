@@ -1,0 +1,60 @@
+// components/ProgressCircle.module.scss
+
+$circle-size: 30px; // 원의 크기
+
+.progressContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+}
+
+.progressCircle {
+  width: $circle-size;
+  height: $circle-size;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: calc($circle-size - 10px);
+    height: calc($circle-size - 10px);
+    background: white;
+    border-radius: 50%;
+  }
+}
+
+.percentageText {
+  position: absolute;
+  font-size: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+// 각 퍼센티지 범위에 따라 색상을 설정
+.red {
+  background: conic-gradient(
+    #ff4c4c calc(var(--percentage) * 1%),
+    #ddd calc(var(--percentage) * 1%)
+  );
+}
+
+.yellow {
+  background: conic-gradient(
+    #ffeb3b calc(var(--percentage) * 1%),
+    #ddd calc(var(--percentage) * 1%)
+  );
+}
+
+.green {
+  background: conic-gradient(
+    #4caf50 calc(var(--percentage) * 1%),
+    #ddd calc(var(--percentage) * 1%)
+  );
+}

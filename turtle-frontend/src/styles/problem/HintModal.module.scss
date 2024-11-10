@@ -1,0 +1,98 @@
+.ModalContent {
+  background-color: var(--secondary-button-color); /* 배경 색상 */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--shadow-color); /* 그림자 색상 */
+  width: 300px;
+  max-width: 90%; 
+  padding: 20px;
+  text-align: center;
+  animation: slideDown 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+    width: 70%;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%;
+    padding: 18px;
+  }
+}
+
+.modalButton {
+  width: 40%;
+  height: auto;
+  margin-top: 15px;
+  padding: 3px;
+  border: none;
+  background-color: var(--question-mode-color); /* 모드에 맞는 색상 */
+  color: var(--text-color2); /* 텍스트 색상 */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--question-mode-hover-color);
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+    height: auto;
+  }
+}
+
+.hintButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+  }
+}
+
+.hintButton {
+  width: 70%;
+  padding: 5px;
+  font-size: 16px;
+  background-color: var(--accent-color); /* 강조 색상 */
+  color: var(--text-color2); /* 텍스트 색상 */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--accent-hover-color);
+  }
+
+  &:active {
+    background-color: #2a4f66; /* 적절한 대비 색상 */
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    font-size: 14px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%;
+  }
+}
+
+.hintContent {
+  font-size: 18px;
+  color: var(--small-text-color); /* 작은 텍스트 색상 */
+  text-align: center;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 17px;
+  }
+}

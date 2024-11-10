@@ -1,0 +1,109 @@
+/* Modal overlay styles */
+.ratingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75); /* Dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content styles */
+.ratingContent {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  width: 300px;
+  max-width: 90%; /* Responsive */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    padding: 20px; /* 패딩 축소 */
+    width: 70%; /* 작은 화면에 맞게 너비 확장 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 70%; /* 태블릿에 맞게 너비 조정 */
+  }
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Stars container */
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    gap: 6px; /* 간격 축소 */
+  }
+}
+
+/* Styling individual stars */
+.star {
+  cursor: pointer;
+  font-size: 2rem;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2); /* Scale effect on hover */
+  }
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 1.8rem; /* 작은 화면에서 글자 크기 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 1.9rem;
+  }
+}
+
+/* Confirm button styling */
+.ratingButtonBox {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 100%; /* 버튼이 화면 너비에 맞게 확장 */
+    padding: 12px; /* 패딩 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 80%; /* 태블릿에서 적절한 너비 */
+  }
+}

@@ -1,0 +1,68 @@
+.start_button_box {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  position: relative;
+  top: 130px; /* 상단 간격 조정 */
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    top: 80px; /* 상단 여백 줄이기 */
+    margin-top: 1.5rem; /* 간격 조정 */
+    padding: 10px; /* 내부 여백 추가 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    top: 100px; /* 태블릿에 맞게 조정 */
+    margin-top: 1.8rem;
+  }
+}
+
+.start_button {
+  box-shadow: 0px 12px 10px var(--shadow-color);
+  background-color: var(--primary-color);
+  width: 170px;
+  height: 56px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--primary-hover-color);
+  }
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    width: 140px; /* 버튼 너비 축소 */
+    height: 48px; /* 버튼 높이 축소 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 160px; /* 적절한 너비 조정 */
+    height: 52px; /* 높이 조정 */
+  }
+}
+
+.home_to_explanation {
+  color: var(--text-color2);
+  font-size: 18px;
+  letter-spacing: 0.2rem;
+  font-weight: 550;
+  text-decoration: none;
+  text-align: center;
+
+  /* 모바일 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    font-size: 16px; /* 글자 크기 축소 */
+    letter-spacing: 0.1rem; /* 간격 조정 */
+  }
+
+  /* 태블릿 (768px ~ 1024px) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 17px; /* 적절한 글자 크기 */
+  }
+}

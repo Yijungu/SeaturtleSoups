@@ -1,0 +1,94 @@
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    gap: 6px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    gap: 10px;
+  }
+}
+
+.textbox {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--input-border-color);
+  outline: none;
+  width: 550px;
+  color : #555555;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+  }
+}
+
+.textboxfake {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--input-border-color);
+  outline: none;
+  width: 550px;
+  color : #b4b4b4;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+  }
+}
+
+.inputButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  @media (max-width: 768px) {
+    width: 30%;
+    font-size: 14px;
+  }
+}
+
+.questionMode {
+  background-color: var(--question-mode-color);
+
+  &:hover {
+    background-color: var(--question-mode-hover-color);
+  }
+
+  &:active {
+    background-color: var(--question-mode-active-color);
+  }
+}
+
+.answerMode {
+  background-color: var(--answer-mode-color);
+
+  &:hover {
+    background-color: var(--answer-mode-hover-color);
+  }
+
+  &:active {
+    background-color: var(--answer-mode-active-color);
+  }
+}
