@@ -17,5 +17,3 @@ pub struct Rating {
     pub count: usize,  // 평가 횟수
     pub average: f32,  // 평균 평점
 }
-
-pub type SharedRating = Arc<Mutex<Rating>>;

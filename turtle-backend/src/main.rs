@@ -13,15 +13,10 @@ use turtle_backend::routes::init_routes;
 use turtle_backend::services::story_saver::{fetch_stories_from_db, schedule_story_reset};
 use turtle_backend::services::reponse_saver::batch_save_to_db;
 use turtle_backend::services::openai_service::fetch_background_from_openai;
-use turtle_backend::models::{Rating, SharedRating};
 
 
 pub type StoryData = Arc<Mutex<Vec<Story>>>;
 pub type ResponseQueue = Arc<Mutex<Vec<Response>>>;
-
-fn init_rating() -> SharedRating {
-    Arc::new(Mutex::new(Rating { count: 0, average: 0.0 }))
-}
 
 fn load_env() {
     let env = std::env::var("RUST_ENV").unwrap_or_else(|_| "local".to_string());
@@ -79,13 +74,10 @@ async fn main() -> std::io::Result<()> {
         }
     }
 
-    let rating = init_rating();
-
-    let rating_clone = Arc::clone(&rating);
     let story_data_clone = Arc::clone(&story_data);
     let db_pool_clone = db_pool.clone();
     task::spawn(async move {
-        schedule_story_reset(story_data_clone, rating_clone, db_pool_clone).await;
+        schedule_story_reset(story_data_clone, db_pool_clone).await;
     });
 
     let response_queue: ResponseQueue = Arc::new(Mutex::new(Vec::new()));
@@ -108,7 +100,6 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .app_data(web::Data::new(story_data.clone()))
             .app_data(db_pool_data.clone()) // 수정된 부분
-            .app_data(web::Data::new(rating.clone()))
             .app_data(web::Data::new(response_queue.clone()))
             .configure(init_routes)
     })
