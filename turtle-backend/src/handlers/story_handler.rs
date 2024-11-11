@@ -8,6 +8,7 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 type StoryList = Arc<Mutex<Vec<Story>>>;
 use crate::services::story_saver::update_story_data_from_db;
+use crate::services::openai_service::fetch_background_from_openai;
 #[derive(Serialize)] // JSON 응답을 위해 Serialize 파생 사용
 struct Hints {
     hint1: Option<String>,
@@ -69,13 +70,24 @@ async fn insert_story_to_db(
     new_story: web::Json<StoryRequest>,
 ) -> Result<HttpResponse, actix_web::Error> {
     // 반환 타입 변경
-    let story = new_story.into_inner();
+    let mut story = new_story.into_inner();
 
     // 날짜 문자열을 NaiveDate로 파싱하고 에러 처리
     let date = match NaiveDate::from_str(&story.date) {
         Ok(d) => d,
         Err(_) => return Ok(HttpResponse::BadRequest().body("Invalid date format")),
     };
+
+
+    if story.background.is_none() {
+        // Fetch background data from OpenAI
+        match fetch_background_from_openai(&story.question, &story.answer).await {
+            Ok(background) => story.background = Some(background),
+            Err(_) => return Ok(HttpResponse::InternalServerError().body("Failed to fetch background data")),
+        }
+    }
+
+    println!("{}", story.background.as_deref().unwrap_or(""));
 
     // 스토리 삽입 쿼리 실행
     let result = sqlx::query!(
@@ -85,6 +97,7 @@ async fn insert_story_to_db(
          DO UPDATE SET 
             question = EXCLUDED.question,
             answer = EXCLUDED.answer,
+            background = EXCLUDED.background,
             hint1 = EXCLUDED.hint1,
             hint2 = EXCLUDED.hint2",
         story.question,
