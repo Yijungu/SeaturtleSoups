@@ -22,9 +22,9 @@ export const fetchStoryQuestion = async (): Promise<string> => {
     }
   };
 
-  export const addRating = async (newRating: number): Promise<string> => {
+  export const addRating = async (id: number, newRating: number): Promise<string> => {
     try {
-      const response = await axios.post(`${API_URL}/rating`, newRating, {
+      const response = await axios.post(`${API_URL}/rating`, {id : id, rating : newRating}, {
         headers: {
           "Content-Type": "application/json", // Set the correct content type
         },

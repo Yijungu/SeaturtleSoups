@@ -15,6 +15,7 @@ export async function fetchStoriesByWeek() {
 
 // 스토리 삽입
 export async function insertStory(story: {
+  title: string;
   question: string;
   answer: string;
   date: string;

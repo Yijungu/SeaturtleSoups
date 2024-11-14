@@ -6,7 +6,11 @@ import WhiteSpeechBubble from "../../../public/images/WhiteSpeechBubble.png";
 import styles from "../../styles/thanks/UserAnswer.module.scss";
 import { useEffect, useState } from "react";
 
-export default function UserAnswer() {
+interface UserAnswerProps {
+  id: string | null; // Add id prop to retrieve the specific story data
+}
+
+export default function UserAnswer({ id }: UserAnswerProps) {
   const [userAnswer, setUserAnswer] = useState<string | null>(null); // 사용자 답변 관리
   const [error, setError] = useState<string | null>(null); // 에러 상태 관리
   const [nickname, setNickName] = useState<string>("");
@@ -15,17 +19,20 @@ export default function UserAnswer() {
   useEffect(() => {
     const fetchUserAnswer = () => {
       try {
-        const fetchedAnswer = localStorage.getItem("userAnswer") || null;
+        // Retrieve user answer from the specific story based on id
+        const storyData = JSON.parse(localStorage.getItem(`story_${id}`) || "{}");
+        const fetchedAnswer = storyData.userAnswer || null;
         setUserAnswer(fetchedAnswer);
-        console.log(fetchedAnswer);
       } catch (err) {
         console.error("Error fetching user answer:", err);
         setError("답변을 불러오는 중 오류가 발생했습니다.");
       }
     };
+
+    // Retrieve nickname from local storage
     setNickName(localStorage.getItem("nickname") || "사용자");
     fetchUserAnswer();
-  }, []);
+  }, [id]);
 
   // 에러가 발생했을 때 표시
   if (error) {

@@ -111,13 +111,10 @@ pub async fn get_secret_key_from_aws(key_name: &str) -> Result<String, OpenAIErr
 
 pub async fn call_openai_with_memory(
     prompt_input: &str,
-    story_data: Arc<Mutex<Vec<Story>>>,
+    question: &str,
+    answer: &str,
+    background: Option<&str>,
 ) -> Result<String, OpenAIError> {
-    // 메모리에서 스토리 가져오기
-    let story = {
-        let data = story_data.lock().await;
-        data.first().cloned().ok_or(OpenAIError::EmptyResponse)?
-    };
 
     // OpenAI API 키 가져오기
     let api_key = get_openai_api_key().await?;
@@ -228,7 +225,7 @@ pub async fn call_openai_with_memory(
         그런 다음 질문의 의미가 이야기와 완벽히 일치되는지 정확히 판단하세요. 
         모든 단어들의 의미가 완벽히 들어맞아야 합니다. 예를 들어, 사진은 그림을 뜻하지 않고 사진기를 통해서 찍은 사진만을 뜻합니다.
         질문에 답을 '네.' 또는 '아니오.' 또는 '확실히 모르겠습니다.' 로 제공하세요. 추가적인 설명은 하지 마세요.",
-        story.question, story.answer
+        question, answer
     );
 
     let second_result = send_request(
@@ -236,7 +233,7 @@ pub async fn call_openai_with_memory(
         &api_key,
         model,
         &system_message,
-        story.background.as_deref().unwrap_or(""),
+        background.as_deref().unwrap_or(""),
         &format!("질문 : {}", prompt_input),
     )
     .await?;
@@ -244,7 +241,7 @@ pub async fn call_openai_with_memory(
     // 중요도를 평가하는 마지막 요청
     let importance_message = format!(
         "당신은 바다거북수프 게임의 사회자입니다. 다음에 문제와 이야기가 주어집니다.\n\n문제: {}\n부분 이야기: {}\n\n당신의 임무는 다음과 같습니다:\n\n1. 질문 속 모든 단어들의 정의를 엄격히 재단하세요. 그런 다음 질문의 의미가 이야기와 완벽히 일치되는지 정확히 판단하세요. 모든 단어들의 의미가 완벽히 들어맞아야 합니다. 예를 들어, 사진은 그림을 뜻하지 않고 사진기를 통해서 찍은 사진만을 뜻합니다. \n2. 부분 이야기를 깊이 있게 분석하여 부분 이야기에는 나와있지 않은 숨겨진 진실과 배경을 알아내세요. 알아낸 것을 토대로 하나의 전체 이야기를 완성하세요.\n3. 주어진 질문이 네 아니오로 명확하게 답을 제공할 수 있는 질문인지 판단하세요.\n4. 주어진 질문이 이야기의 핵심을 짚는 지 판단하세요.\n5. 위의 단계들을 따라 질문의 중요도를 정확하게 평가해주세요. 답을 '질문의 중요도 : ?점' 으로만 제공하세요. 절대로 추가적인 설명이나 정보는 제공하지 마세요.",
-        story.question, story.answer
+        question, answer
     );
 
     let initial_result =
@@ -257,14 +254,11 @@ pub async fn call_openai_with_memory(
 
 pub async fn call_openai_with_memory_answer(
     prompt_input: &str,
-    story_data: Arc<Mutex<Vec<Story>>>,
+    question: &str,
+    answer: &str,
+    background: Option<&str>,
 ) -> Result<String, OpenAIError> {
     // 메모리에서 스토리 가져오기
-    let story = {
-        let data = story_data.lock().await;
-        data.first().cloned().ok_or(OpenAIError::EmptyResponse)?
-    };
-
     // OpenAI API 키 가져오기
     let api_key = get_openai_api_key().await?;
     let client = Client::new();
@@ -273,6 +267,7 @@ pub async fn call_openai_with_memory_answer(
         client: &Client,
         api_key: &str,
         system_content: &str,
+        background_content: &str,
         user_content: &str,
     ) -> Result<String, OpenAIError> {
         let request_body = json!({
@@ -280,6 +275,12 @@ pub async fn call_openai_with_memory_answer(
             "messages": [
                 { "role": "system", "content": system_content },
                 { "role": "user", "content": "이야기의 핵심을 알아내세요." },
+                {
+                    "role": "assistant",
+                    "content": format!(
+                        "{}",
+                        background_content,
+                    )},
                 { "role": "user", "content": user_content }
             ],
             "max_tokens": 100,
@@ -309,14 +310,15 @@ pub async fn call_openai_with_memory_answer(
 
     let system_message = format!(
         "당신은 바다거북수프 게임의 사회자입니다.\n\n문제: {}\n\n부분 이야기: {}\n\n당신의 임무는 다음과 같습니다:\n\n1. 부분 이야기를 깊이 있게 분석하여 부분 이야기에는 나와있지 않은 숨겨진 배경과 문제에 대한 답을 알아내세요.\n2 주어진 정답 속 모든 단어들의 정의를 엄격히 재단하세요. 그런 다음 정답의 의미가 이야기와 완벽히 일치되는지 정확히 판단하세요.\n3. 1번에서 알아낸 답이 들어가있는 지 입력으로 들어온 정답에 들어있는 지 판단하세요. 위의 단계들을 통해 주어진 정답을 맞는 지를 판단하세요. 답은 '맞습니다.' 또는 '틀립니다.'로 제공하세요. 추가적인 설명이나 정보는 제공하지 마세요.",
-        story.question,
-        story.answer
+        question,
+        answer
     );
 
     let first_result = send_request(
         &client,
         &api_key,
         &system_message,
+        background.as_deref().unwrap_or(""),
         &format!(
             "정확히 이야기의 핵심이 들어가 있는지 판단해주세요. {}",
             prompt_input
@@ -327,6 +329,7 @@ pub async fn call_openai_with_memory_answer(
         &client,
         &api_key,
         &system_message,
+        background.as_deref().unwrap_or(""),
         &format!(
             "알아낸 이야기의 핵심을 토대로 사실 여부를 판단해주세요. {}",
             prompt_input

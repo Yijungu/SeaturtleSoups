@@ -4,40 +4,58 @@ import React from "react";
 import Modal from "react-modal";
 import styles from "../../styles/problem/GiveUpModal.module.scss";
 import { useRouter } from "next/navigation";
-import { isSameDay } from "../../helpers/dateHelpers"; 
+import { isSameDay } from "../../helpers/dateHelpers";
 import { toKSTISOStringFull } from "../../utils/dateUtils";
 
 interface GiveUpModalProps {
+  id: number;
   isOpen: boolean;
   onRequestClose: () => void;
 }
 
 const GiveUpModal: React.FC<GiveUpModalProps> = ({
+  id,
   isOpen,
   onRequestClose,
 }) => {
   const router = useRouter();
-  // 기브업 정보 저장 함수
+  const storyKey = `story_${id}`; // Unique key for the specific story
+
+  // Save give-up information specific to the story
   const saveGiveUpToLocalStorage = () => {
     const now = new Date();
     const currentDate = toKSTISOStringFull(now);
 
-    // 로컬 스토리지에서 기존 값 가져오기
-    const savedGiveUpCount = Number(localStorage.getItem("giveUpCount") || 0);
-    const lastCorrectDate = localStorage.getItem("lastCorrectDate") || "";
-    const lastGiveUpDate = localStorage.getItem("lastGiveUpDate") || "";
+    // Retrieve existing story data from local storage or initialize a new object
+    const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
+    const endTime = storyData.endTime || "";
 
-    // 같은 날 중복 저장 방지
-    if (!isSameDay(lastCorrectDate) && !isSameDay(lastGiveUpDate)) {
-      localStorage.setItem("lastGiveUpDate", currentDate);
-      localStorage.setItem("giveUpCount", (savedGiveUpCount + 1).toString());
+    if (!endTime) {
+      storyData.endTime = currentDate; // endTime이 비어있을 경우 설정
+      storyData.state = "giveup";
+      const storedCheckedProblems = JSON.parse(
+        localStorage.getItem("giveupProblem") || "[]"
+      );
+
+      // Check if the ID is already in the list; if not, add it
+      if (!storedCheckedProblems.includes(id)) {
+        storedCheckedProblems.push(id);
+
+        // Store the updated list back into localStorage
+        localStorage.setItem(
+          "giveupProblem",
+          JSON.stringify(storedCheckedProblems)
+        );
+      }
     }
+
+    localStorage.setItem(storyKey, JSON.stringify(storyData));
   };
 
-  // 확인 버튼 클릭 핸들러
+  // Confirm button click handler
   const handleConfirm = () => {
-    saveGiveUpToLocalStorage(); // 기브업 정보 저장
-    router.push("/thanks?status=giveup");
+    saveGiveUpToLocalStorage(); // Save give-up data
+    router.push(`/thanks?status=giveup&id=${id}`);
   };
 
   return (

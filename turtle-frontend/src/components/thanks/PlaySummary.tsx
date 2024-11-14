@@ -1,61 +1,44 @@
 "use client";
 
 import styles from "../../styles/thanks/PlaySummary.module.scss";
-import CopyButton from "./CopyButton"; // 경로 조정 필요 시 수정
+import CopyButton from "./CopyButton";
 import { useState, useEffect } from "react";
 import { isSameDay } from "../../helpers/dateHelpers";
+import WarehouseButton from "../common/WarehouseButton";
 
 interface PlaySummaryProps {
-  setShowModal: (value: boolean) => void; // 상위 컴포넌트에서 받은 함수
+  id: number; // Story ID for managing play data
 }
 
-const PlaySummary: React.FC<PlaySummaryProps> = ({ setShowModal }) => {
+const PlaySummary: React.FC<PlaySummaryProps> = ({ id }) => {
+  const storyKey = `story_${id}`;
   const [work, setWork] = useState<boolean>(true);
-  const [nickname, setNickName] = useState<string>("");
+  const [nickname, setNickName] = useState<string>("사용자");
   const [correctAnswers, setCorrectAnswers] = useState<number>(0);
   const [giveUpCount, setGiveUpCount] = useState<number>(0);
   const [totalQuestionsAsked, setTotalQuestionsAsked] = useState<number>(0);
-  const [workTime, setWorkTime] = useState<string>("");
+  const [workTime, setWorkTime] = useState<string>("0시간 0분 0초");
   const [hintCount, setHintCount] = useState<number>(0);
 
   useEffect(() => {
-    const lastCorrectDate = localStorage.getItem("lastCorrectDate") || "";
-    const lastGiveUpDate = localStorage.getItem("lastGiveUpDate") || "";
-
-    let storedEndTime = new Date(); // Initialize with current date
-
-    // Check if either the correct date or give-up date matches the current date
-    if (isSameDay(lastCorrectDate) || isSameDay(lastGiveUpDate)) {
-      setShowModal(false);
-
-      if (isSameDay(lastCorrectDate)) {
-        setWork(true);
-        storedEndTime = new Date(lastCorrectDate);
-      } else {
-        setWork(false);
-        storedEndTime = new Date(lastGiveUpDate);
-      }
-
-      const storedStartTime = new Date(localStorage.getItem("startTime") || "");
-      const timeSpent = getTimeDifference(storedStartTime, storedEndTime);
-      setWorkTime(timeSpent);
-    } else {
-      setShowModal(true);
-      setWorkTime("0시간 0분 0초");
-    }
-
-    // Load other data from localStorage
-    setHintCount(Number(localStorage.getItem("openedHintCount")) || 0);
+    const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
+    const timeSpent = getTimeDifference(new Date(storyData.startTime), new Date(storyData.endTime));
+    setWorkTime(timeSpent);
+    setHintCount(storyData.openedHintCount || 0);
     setNickName(localStorage.getItem("nickname") || "사용자");
-    setCorrectAnswers(Number(localStorage.getItem("correctAnswers")) || 0);
-    setGiveUpCount(Number(localStorage.getItem("giveUpCount")) || 0);
-    setTotalQuestionsAsked(
-      Number(localStorage.getItem("totalQuestionsAsked")) || 0
+    const storedSuccessProblems = JSON.parse(
+      localStorage.getItem("successProblem") || "[]"
     );
-  }, []);
+    const storedGiveUpProblems = JSON.parse(
+      localStorage.getItem("giveupProblem") || "[]"
+    );
+    setCorrectAnswers(storedSuccessProblems.length);
+    setGiveUpCount(storedGiveUpProblems.length);
+    setTotalQuestionsAsked(storyData.totalQuestionsAsked || 0);
+  }, [id]);
 
   const handleCopy = () => {
-    const rootUrl = window.location.origin; // 도메인만 가져오기
+    const rootUrl = window.location.origin;
     const textToCopy = `
   [플레이 요약]
   닉네임: ${nickname}
@@ -88,12 +71,10 @@ const PlaySummary: React.FC<PlaySummaryProps> = ({ setShowModal }) => {
 
   return (
     <div className={styles.my_play_box}>
-      {/* CopyButton 컴포넌트 */}
       <div className={styles.copy_button_wrapper}>
         <CopyButton handleCopy={handleCopy} />
       </div>
 
-      {/* 플레이 요약 내용 */}
       <div className={styles.copy_phrase}>
         <span className={styles.my_play_3}>
           <div className={styles.line}>
@@ -106,6 +87,7 @@ const PlaySummary: React.FC<PlaySummaryProps> = ({ setShowModal }) => {
           <p>{`총 소요 시간: ${workTime}`}</p>
         </span>
       </div>
+      <WarehouseButton />
     </div>
   );
 };

@@ -10,9 +10,7 @@ use tokio::sync::Mutex;
 use tokio::task;
 use turtle_backend::models::{Response, Story};
 use turtle_backend::routes::init_routes;
-use turtle_backend::services::story_saver::{fetch_stories_from_db, schedule_story_reset};
 use turtle_backend::services::reponse_saver::batch_save_to_db;
-use turtle_backend::services::openai_service::fetch_background_from_openai;
 
 
 pub type StoryData = Arc<Mutex<Vec<Story>>>;
@@ -53,33 +51,7 @@ async fn main() -> std::io::Result<()> {
         .expect("Failed to create Migrator");
     migrator.run(&db_pool).await.expect("Failed to run migrations");
 
-    let story_data: StoryData = Arc::new(Mutex::new(Vec::new()));
-    {
-        let mut data = story_data.lock().await;
-        match fetch_stories_from_db(&db_pool).await {
-            Ok(mut stories) => {
-                for story in &mut stories {
-                    if story.background.is_none() {
-                        story.background = Some(
-                            fetch_background_from_openai(&story.question, &story.answer)
-                                .await
-                                .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, format!("OpenAI error: {}", e)))?
-                        );
-                    }
-                }
-                *data = stories;
-                println!("Successfully loaded today's stories into memory.");
-            }
-            Err(err) => eprintln!("Failed to load stories from DB: {}", err),
-        }
-    }
-
-    let story_data_clone = Arc::clone(&story_data);
     let db_pool_clone = db_pool.clone();
-    task::spawn(async move {
-        schedule_story_reset(story_data_clone, db_pool_clone).await;
-    });
-
     let response_queue: ResponseQueue = Arc::new(Mutex::new(Vec::new()));
     let queue_clone = Arc::clone(&response_queue);
     let pool_clone = db_pool.clone();
@@ -98,7 +70,6 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(cors)
-            .app_data(web::Data::new(story_data.clone()))
             .app_data(db_pool_data.clone()) // 수정된 부분
             .app_data(web::Data::new(response_queue.clone()))
             .configure(init_routes)

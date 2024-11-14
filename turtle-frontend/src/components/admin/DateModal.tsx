@@ -5,9 +5,11 @@ import styles from "../../styles/admin/DateModal.module.scss";
 import { getResponse, insertStory } from "../../app/api/admin";
 import { toKSTISOString } from "../../utils/dateUtils";
 import ExcelJS from "exceljs"; 
+import DeleteButton from "./DeleteButton";
 
 interface Story {
   id: number;
+  title: string;
   question: string;
   answer: string;
   hint1: string;
@@ -39,6 +41,7 @@ const DateModal: React.FC<ModalProps> = ({
   stories,
   refreshStories,
 }) => {
+  const [title, setTitle] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [hint1, setHint1] = useState("");
@@ -54,6 +57,7 @@ const DateModal: React.FC<ModalProps> = ({
       );
 
       if (existingStory) {
+        setTitle(existingStory.title);
         setQuestion(existingStory.question);
         setAnswer(existingStory.answer);
         setHint1(existingStory.hint1);
@@ -61,6 +65,7 @@ const DateModal: React.FC<ModalProps> = ({
         setSuccessCount(existingStory.success_count);
         setRating(existingStory.rating);
       } else {
+        setTitle("");
         setQuestion("");
         setAnswer("");
         setHint1("");
@@ -76,6 +81,7 @@ const DateModal: React.FC<ModalProps> = ({
 
     try {
       await insertStory({
+        title,
         question,
         answer,
         hint1,
@@ -142,7 +148,14 @@ const DateModal: React.FC<ModalProps> = ({
           })}
           의 스토리
         </h2>
-
+        
+        <input
+          type="text"
+          placeholder="제목 입력"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={styles.inputField}
+        />
         <input
           type="text"
           placeholder="질문 입력"
@@ -195,6 +208,7 @@ const DateModal: React.FC<ModalProps> = ({
         <button className={styles.actionButton} onClick={handleGetQuestion}>
           질문 다운로드
         </button>
+        {question && <DeleteButton refreshStories = {refreshStories} date={selectedDate ? toKSTISOString(selectedDate) : ''} />}
         </div>
     </div>
   );

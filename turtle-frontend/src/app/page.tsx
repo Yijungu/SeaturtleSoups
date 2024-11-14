@@ -9,6 +9,7 @@ import NicknameInput from '../components/home/NicknameInput';
 import QnA from '../components/home/QnA';
 import Footer from '../components/common/Footer';
 import ScrollToTopButton from '../components/common/ScrollToTopButton';
+import WarehouseButtonHome from '@/components/common/WarehouseButtonHome';
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <div className={styles.container}>
         <Header />
         <StartButton />
+        <WarehouseButtonHome/>
         <ConversationImage />
         <NicknameInput/>
         <QnA />

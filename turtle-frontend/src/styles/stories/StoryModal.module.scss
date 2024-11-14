@@ -1,0 +1,107 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); // Dark semi-transparent background
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modalContent {
+    width: 90%;
+    max-width: 500px;
+    background-color: var(--background);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease-out;
+    font-family: Arial, sans-serif;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .modalHeader h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin: 0;
+  }
+  
+  .modalCloseButton {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    
+    &:hover {
+      background-color: #ff6b6b;
+      transform: scale(1.1);
+    }
+  
+    &:focus {
+      outline: none;
+    }
+  
+    .closeIcon {
+      font-size: 1.2rem;
+      color: #ffffff;
+      font-weight: bold;
+    }
+  }
+  
+  .modalBody {
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 10px 0;
+  }
+  
+  .joinButton {
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: 550;
+    color: #ffffff;
+    background-color: var(--question-mode-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #1e5b92; // Darker shade on hover
+    }
+  
+    &:focus {
+      outline: none;
+    }
+  }
+  

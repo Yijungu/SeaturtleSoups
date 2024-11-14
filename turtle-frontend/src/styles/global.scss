@@ -9,7 +9,7 @@
   --foreground: #171717;
   --text-color: rgba(18, 36, 50, 1);
   --text-color2: rgba(230, 230, 230, 1);
-  --small-text-color: rgba(85, 111, 135, 1);
+  --small-text-color: rgb(138, 148, 155);
   --border-color: rgba(0, 0, 0, 0.1);
 
   /* 링크 색상 */
@@ -51,6 +51,7 @@
   --low-score-color: #FFF2F2; /* 낮은 점수 */
   --medium-score-color: #F2FDFF; /* 중간 점수 */
   --high-score-color: #F2FFF2; /* 높은 점수 */
+  --card: #ffffff;
 }
 
 /* 다크모드 색상 */
@@ -60,7 +61,7 @@
     --foreground: #ededed;
     --text-color: rgba(230, 230, 230, 1);
     --text-color2: rgba(230, 230, 230, 1);
-    --small-text-color: rgba(120, 150, 170, 1);
+    --small-text-color: rgb(145, 150, 154);
     --border-color: rgb(156, 156, 156);
 
     --accent-color: #66b2ff;
@@ -99,6 +100,8 @@
     --low-score-color: rgba(122, 74, 74, 0.5); /* 낮은 점수 - 어두운 붉은색, 80% 불투명 */
   --medium-score-color: rgba(74, 107, 122, 0.5); /* 중간 점수 - 어두운 청록색, 80% 불투명 */
   --high-score-color: rgba(74, 122, 74, 0.5); /* 높은 점수 - 어두운 녹색, 80% 불투명 */
+
+  --card: #333;
   }
 }
 
@@ -108,7 +111,7 @@
   --foreground: #ededed;
   --text-color: rgba(230, 230, 230, 1);
   --text-color2: rgba(230, 230, 230, 1);
-  --small-text-color: rgba(120, 150, 170, 1);
+  --small-text-color: rgb(145, 150, 154);
   --border-color: rgb(156, 156, 156);
 
   --accent-color: #66b2ff;
@@ -145,6 +148,7 @@
   --low-score-color: rgba(122, 74, 74, 0.5); /* 낮은 점수 - 어두운 붉은색, 80% 불투명 */
   --medium-score-color: rgba(74, 107, 122, 0.5); /* 중간 점수 - 어두운 청록색, 80% 불투명 */
   --high-score-color: rgba(74, 122, 74, 0.5); /* 높은 점수 - 어두운 녹색, 80% 불투명 */
+  --card: #333;
 }
 
 // 바디 스타일

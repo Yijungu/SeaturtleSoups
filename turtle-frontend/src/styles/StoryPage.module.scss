@@ -1,0 +1,21 @@
+// Page.module.scss
+
+.container {
+  position: relative; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 85%;
+    min-height: 1000px;
+    background-color: var(--background);
+    padding: 20px;
+    overflow: visible;
+}
+
+
+@media (max-width: 768px) {
+  .container{
+    width: 100%;
+  }
+
+}

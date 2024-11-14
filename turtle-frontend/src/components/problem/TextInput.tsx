@@ -16,7 +16,12 @@ interface TextInputProps {
   onQuestionCheck: () => void;
   onAnswerCheck: () => void;
   updateLastQnaAnswer: (loadingQnas: Qna[], answer: string) => void;
+  id: number;
+  question: string;
+  answer: string;
+  background: string | null;
 }
+
 interface Qna {
   question: string;
   answer: string;
@@ -28,10 +33,15 @@ const TextInput: React.FC<TextInputProps> = ({
   onQuestionCheck,
   onAnswerCheck,
   updateLastQnaAnswer,
+  id,
+  question,
+  answer,
+  background,
 }) => {
   const [text, setText] = useState<string>("");
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const storyKey = `story_${id}`;
 
   // 입력 값이 변경될 때 호출되는 핸들러
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,31 +53,37 @@ const TextInput: React.FC<TextInputProps> = ({
     const now = new Date();
     const currentDate = toKSTISOStringFull(now);
 
-    // 로컬 스토리지에서 기존 값 가져오기
-    const savedCorrectAnswers = Number(
-      localStorage.getItem("correctAnswers") || 0
-    );
-    const lastCorrectDate = localStorage.getItem("lastCorrectDate") || "";
-    const lastGiveUpDate = localStorage.getItem("lastGiveUpDate") || "";
+    // 로컬 스토리지에서 기존 스토리 데이터 가져오기
+    const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
+    const endTime = storyData.endTime || "";
 
-    // 같은 날 중복 저장 방지
-    if (!isSameDay(lastCorrectDate) && !isSameDay(lastGiveUpDate)) {
-      localStorage.setItem("lastCorrectDate", currentDate);
-      localStorage.setItem(
-        "correctAnswers",
-        (savedCorrectAnswers + 1).toString()
+    if (!endTime) {
+      storyData.endTime = currentDate; // endTime이 비어있을 경우 설정
+      storyData.state = "correct";
+      const storedCheckedProblems = JSON.parse(
+        localStorage.getItem("successProblem") || "[]"
       );
+
+      // Check if the ID is already in the list; if not, add it
+      if (!storedCheckedProblems.includes(id)) {
+        storedCheckedProblems.push(id);
+
+        // Store the updated list back into localStorage
+        localStorage.setItem(
+          "successProblem",
+          JSON.stringify(storedCheckedProblems)
+        );
+      }
     }
+
+    localStorage.setItem(storyKey, JSON.stringify(storyData));
   };
 
   const incrementTotalQuestionsAsked = () => {
-    const totalQuestionsAsked = Number(
-      localStorage.getItem("totalQuestionsAsked") || 0
-    );
-    localStorage.setItem(
-      "totalQuestionsAsked",
-      (totalQuestionsAsked + 1).toString()
-    );
+    const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
+    const totalQuestionsAsked = Number(storyData.totalQuestionsAsked || 0);
+    storyData.totalQuestionsAsked = totalQuestionsAsked + 1;
+    localStorage.setItem(storyKey, JSON.stringify(storyData));
   };
 
   // 제출 버튼 클릭 시 호출되는 핸들러
@@ -80,16 +96,18 @@ const TextInput: React.FC<TextInputProps> = ({
         incrementTotalQuestionsAsked();
         const text_temp = text;
         const loadingQnas = addQna(text_temp, "응답 중...");
+        
         const response = tabPressed
-          ? await submitQuestionToOpenAI(text_temp)
-          : await submitAnswerToOpenAI(text_temp);
-        if (
-          response.startsWith("정답이 맞습니다") ||
-          response.startsWith("맞")
-        ) {
+          ? await submitQuestionToOpenAI(text_temp, question, answer, background)
+          : await submitAnswerToOpenAI(text_temp, question, answer, background);
+
+        if (response.startsWith("정답이 맞습니다") || response.startsWith("맞")) {
           saveSuccessToLocalStorage(); // 성공 정보 저장
-          router.push("/thanks?status=correct"); // /thanks 페이지로 이동
-          localStorage.setItem("userAnswer", text_temp);
+          router.push(`/thanks?status=correct&id=${id}`);
+          // Update story data in local storage with userAnswer
+          const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
+          storyData.userAnswer = text_temp;
+          localStorage.setItem(storyKey, JSON.stringify(storyData));
         } else {
           setText("");
           updateLastQnaAnswer(loadingQnas, response); // QnA 추가
@@ -113,7 +131,7 @@ const TextInput: React.FC<TextInputProps> = ({
       }
     }
     if (e.key === "Enter") {
-      e.preventDefault(); // 기본 Tab 동작 막기
+      e.preventDefault(); // 기본 Enter 동작 막기
       handleSubmit();
     }
   };

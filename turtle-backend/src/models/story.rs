@@ -5,6 +5,7 @@ use chrono::NaiveDate;
 #[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
 pub struct Story {
     pub id: i32,
+    pub title: Option<String>,
     pub question: String,
     pub answer: String,
     pub background: Option<String>,

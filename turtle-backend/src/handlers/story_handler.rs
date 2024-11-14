@@ -1,4 +1,5 @@
 use crate::models::story::Story;
+use std::collections::HashMap;
 use actix_web::{delete, get, post, web, HttpResponse, Responder};
 use chrono::{Datelike, Duration, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
@@ -9,6 +10,7 @@ use tokio::sync::Mutex;
 type StoryList = Arc<Mutex<Vec<Story>>>;
 use crate::services::story_saver::update_story_data_from_db;
 use crate::services::openai_service::fetch_background_from_openai;
+
 #[derive(Serialize)] // JSON 응답을 위해 Serialize 파생 사용
 struct Hints {
     hint1: Option<String>,
@@ -16,12 +18,23 @@ struct Hints {
 }
 #[derive(Deserialize)]
 pub struct StoryRequest {
+    pub title: Option<String>,
     pub question: String,
     pub answer: String,
     pub background: Option<String>,
     pub date: String, // 'YYYY-MM-DD' 형식
     pub hint1: Option<String>,
     pub hint2: Option<String>,
+}
+
+#[derive(Serialize)] // JSON 응답을 위해 Serialize 파생 사용
+pub struct StorySummary {
+    pub id: i32,
+    pub title: Option<String>,
+    pub question: String,
+    pub date: chrono::NaiveDate,
+    pub success_count: Option<i32>,
+    pub rating: Option<f32>,
 }
 
 #[get("/stories/refresh")]
@@ -45,7 +58,7 @@ async fn get_all_stories(pool: web::Data<PgPool>) -> impl Responder {
         Story,
         r#"
         SELECT 
-            id, question, answer, background, date, success_count, 
+            id, title, question, answer, background, date, success_count, 
             rating::float4 AS rating,  -- Cast to f32
             hint1, hint2
         FROM stories
@@ -60,6 +73,107 @@ async fn get_all_stories(pool: web::Data<PgPool>) -> impl Responder {
         Err(err) => {
             eprintln!("Failed to fetch stories: {}", err); // 에러 로그 출력
             HttpResponse::InternalServerError().body("Failed to fetch stories") // 500 응답 반환
+        }
+    }
+}
+
+#[get("/story/today")]
+async fn get_story_by_today(
+    pool: web::Data<PgPool>,
+) -> impl Responder {
+
+    // 데이터베이스에서 해당 id의 Story 데이터를 가져오는 쿼리
+    let result = sqlx::query_as!(
+        Story,
+        r#"
+        SELECT 
+            id, title, question, answer, background, date, success_count, 
+            rating::float4 AS rating,  -- Cast to f32
+            hint1, hint2
+        FROM stories
+        WHERE date = CURRENT_DATE
+        "#
+    )
+    .fetch_optional(pool.get_ref())
+    .await;
+
+    // 쿼리 결과 처리
+    match result {
+        Ok(Some(story)) => HttpResponse::Ok().json(story), // 성공적으로 가져온 경우 JSON 응답
+        Ok(None) => HttpResponse::NotFound().body("Story not found"), // 해당 id의 Story가 없는 경우 404 응답
+        Err(err) => {
+            eprintln!("Failed to fetch story by id: {}", err); // 에러 로그 출력
+            HttpResponse::InternalServerError().body("Failed to fetch story") // 500 응답 반환
+        }
+    }
+}
+
+#[get("/stories/{id}")]
+async fn get_story_by_id(
+    pool: web::Data<PgPool>,
+    path: web::Path<i32>, // id를 경로 매개변수로 받음
+) -> impl Responder {
+    let id = path.into_inner();
+
+    // 데이터베이스에서 해당 id의 Story 데이터를 가져오는 쿼리
+    let result = sqlx::query_as!(
+        Story,
+        r#"
+        SELECT 
+            id, title, question, answer, background, date, success_count, 
+            rating::float4 AS rating,  -- Cast to f32
+            hint1, hint2
+        FROM stories
+        WHERE id = $1
+        "#,
+        id
+    )
+    .fetch_optional(pool.get_ref())
+    .await;
+
+    // 쿼리 결과 처리
+    match result {
+        Ok(Some(story)) => HttpResponse::Ok().json(story), // 성공적으로 가져온 경우 JSON 응답
+        Ok(None) => HttpResponse::NotFound().body("Story not found"), // 해당 id의 Story가 없는 경우 404 응답
+        Err(err) => {
+            eprintln!("Failed to fetch story by id: {}", err); // 에러 로그 출력
+            HttpResponse::InternalServerError().body("Failed to fetch story") // 500 응답 반환
+        }
+    }
+}
+
+#[get("/stories/month")]
+async fn get_stories_by_month(
+    pool: web::Data<PgPool>,
+    query: web::Query<HashMap<String, String>>,
+) -> impl Responder {
+    // `month` 파라미터를 가져옴
+    let month = match query.get("month") {
+        Some(month) => month.clone(),
+        None => return HttpResponse::BadRequest().body("Month parameter is required"),
+    };
+
+    // SQL 쿼리에서 특정 월의 스토리만 선택
+    let result = sqlx::query_as!(
+        StorySummary,  // 요약 정보를 담을 구조체
+        r#"
+        SELECT 
+            id, title, question, date, success_count, 
+            rating::float4 AS rating
+        FROM stories
+        WHERE to_char(date, 'YYYY-MM') = $1
+        "#,
+        month
+    )
+    .fetch_all(pool.get_ref())
+    .await;
+
+    // 쿼리 결과 처리
+    match result {
+        Ok(stories) => HttpResponse::Ok().json(stories), // 성공적으로 가져온 경우 JSON 응답
+        Err(err) => {
+            eprintln!("Failed to fetch stories by month: {}", err); // 에러 로그 출력
+            HttpResponse::InternalServerError().body("Failed to fetch stories") // 500 에러 응답
         }
     }
 }
@@ -87,19 +201,19 @@ async fn insert_story_to_db(
         }
     }
 
-    println!("{}", story.background.as_deref().unwrap_or(""));
-
     // 스토리 삽입 쿼리 실행
     let result = sqlx::query!(
-        "INSERT INTO stories (question, answer, background, date, success_count, rating, hint1, hint2) 
-         VALUES ($1, $2, $3, $4, 0, 0, $5, $6)
+        "INSERT INTO stories (title, question, answer, background, date, success_count, rating, hint1, hint2) 
+         VALUES ($1, $2, $3, $4, $5, 0, 0, $6, $7)
          ON CONFLICT (date) 
          DO UPDATE SET 
+            title = EXCLUDED.title,
             question = EXCLUDED.question,
             answer = EXCLUDED.answer,
             background = EXCLUDED.background,
             hint1 = EXCLUDED.hint1,
             hint2 = EXCLUDED.hint2",
+        story.title,
         story.question,
         story.answer,
         story.background.as_deref().unwrap_or(""),

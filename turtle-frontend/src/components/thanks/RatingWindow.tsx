@@ -8,22 +8,24 @@ import { createComplaint } from "@/app/api/complaints";
 interface RatingProps {
   isOpen: boolean;
   closeRating: (rate: number) => void;
+  id: number; // ID for the specific story
 }
 
 export default function RatingFeedbackSwitch({
   isOpen,
   closeRating,
+  id, // Receive the ID as a prop
 }: RatingProps) {
-  const [starFilled, setStarFilled] = useState(0); // 선택된 별점 상태
-  const [feedback, setFeedback] = useState(""); // 피드백 입력 상태
+  const [starFilled, setStarFilled] = useState(0); // State for selected star rating
+  const [feedback, setFeedback] = useState(""); // State for feedback input
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // 제출 중 상태
+  const [isSubmitting, setIsSubmitting] = useState(false); // Submission state
 
   const handleStarClick = async (star: number) => {
     setStarFilled(star);
-    localStorage.setItem("rating", star.toString());
-    await addRating(star);
-    closeRating(star); // 별점 저장 후 창 전환
+    localStorage.setItem(`story_${id}_rating`, star.toString()); // Store rating in local storage for this specific story
+    await addRating(id, star); // Send ID and rating to the API
+    closeRating(star); // Close rating window after saving
   };
 
   const handleFeedbackSubmit = async () => {
@@ -35,7 +37,7 @@ export default function RatingFeedbackSwitch({
     setIsSubmitting(true);
 
     try {
-      await createComplaint({ description: feedback });
+      await createComplaint({ description: feedback }); // Include ID in the complaint submission
       setResponseMessage(`불편사항이 접수되었습니다!`);
 
       setTimeout(() => {
@@ -78,13 +80,15 @@ export default function RatingFeedbackSwitch({
           placeholder="불편사항을 적어주시면 시스템 개선에 많은 도움이 됩니다."
           rows={4}
         />
-        <button
-          className={styles.ratingButtonBox}
-          onClick={handleFeedbackSubmit}
-          disabled={isSubmitting}
-        >
-          {responseMessage || "제출"}
-        </button>
+        <div className={styles.SubmitButtonBox}>
+          <button
+            className={styles.ratingButtonBox}
+            onClick={handleFeedbackSubmit}
+            disabled={isSubmitting}
+          >
+            {responseMessage || "제출"}
+          </button>
+        </div>
       </div>
     </div>
   );

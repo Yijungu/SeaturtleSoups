@@ -11,24 +11,26 @@ pub type StoryData = Arc<Mutex<Vec<Story>>>;
 
 #[derive(Deserialize)]
 struct QuestionPayload {
-    data: String,  // "data" 필드로 질문을 받음
+    data: String,       // "data" field for the prompt
+    question: String,   // Additional question text
+    answer: String,     // Expected answer
+    background: Option<String>, // Optional background information
 }
-
 #[post("/openai")]
 async fn openai_handler(
     payload: web::Json<QuestionPayload>,
-    story_data: web::Data<StoryData>,
     response_queue: web::Data<ResponseQueue>,
 ) -> impl Responder {
     let prompt = payload.data.clone();
-
+    let question = payload.question.clone();
+    let answer = payload.answer.clone();
+    let background = payload.background.clone();
     if prompt.is_empty() {
         return HttpResponse::BadRequest().body("Prompt cannot be empty");
     }
 
-    match call_openai_with_memory(&prompt, story_data.get_ref().clone()).await {
+    match call_openai_with_memory(&prompt, &question, &answer, background.as_deref()).await {
         Ok(response) => {
-            // 비동기적 잠금 사용
             let mut queue = response_queue.lock().await;
             queue.push(Response {
                 id: None,
@@ -40,7 +42,7 @@ async fn openai_handler(
             HttpResponse::Ok().body(response)
         }
         Err(err) => {
-            eprintln!("Error during OpenAI API call: {}", err); // 에러 로그
+            eprintln!("Error during OpenAI API call: {}", err);
             HttpResponse::InternalServerError().body(format!("Error: {}", err))
         }
     }
@@ -49,16 +51,18 @@ async fn openai_handler(
 #[post("/openai/answer")]
 async fn openai_handler_answer(
     payload: web::Json<QuestionPayload>,
-    story_data: web::Data<StoryData>,
     response_queue: web::Data<ResponseQueue>,
 ) -> impl Responder {
     let prompt = payload.data.clone();
+    let question = payload.question.clone();
+    let answer = payload.answer.clone();
+    let background = payload.background.clone();
 
     if prompt.is_empty() {
         return HttpResponse::BadRequest().body("Prompt cannot be empty");
     }
 
-    match call_openai_with_memory_answer(&prompt, story_data.get_ref().clone()).await {
+    match call_openai_with_memory_answer(&prompt, &question, &answer, background.as_deref()).await {
         Ok(response) => {
             // 비동기적 잠금 사용
             let mut queue = response_queue.lock().await;

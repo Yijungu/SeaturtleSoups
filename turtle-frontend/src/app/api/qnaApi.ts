@@ -7,6 +7,20 @@ interface Hints {
   hint2: string;
 }
 
+interface Story {
+  id: number;
+  title: string;
+  question: string;
+  answer: string;
+  background: string | null;
+  date: string;
+  success_count: number;
+  rating: number;
+  hint1: string | null;
+  hint2: string | null;
+}
+
+
 export const fetchStoryQuestion = async (): Promise<string> => {
   try {
     const response = await axios.get(`${API_URL}/memory/story/question`);
@@ -16,6 +30,27 @@ export const fetchStoryQuestion = async (): Promise<string> => {
     throw new Error("Failed to fetch story question");
   }
 };
+
+export const fetchTodayStory = async (): Promise<Story> => {
+  try {
+    const response = await axios.get(`${API_URL}/story/today`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching story question:", error);
+    throw new Error("Failed to fetch story question");
+  }
+};
+
+export const fetchStoryById = async (id: number): Promise<Story> => {
+  try {
+    const response = await axios.get(`${API_URL}/stories/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching story by id:", error);
+    throw new Error("Failed to fetch story by id");
+  }
+};
+
 
 export const fetchHints = async (): Promise<Hints> => {
   try {
@@ -32,11 +67,25 @@ export const fetchHints = async (): Promise<Hints> => {
   }
 };
 
-export const submitQuestionToOpenAI = async (question: string): Promise<string> => {
+export const submitQuestionToOpenAI = async (
+  prompt: string,
+  storyQuestion: string,
+  storyAnswer: string,
+  storyBackground: string | null
+): Promise<string> => {
   try {
-    const response = await axios.post(`${API_URL}/openai`, { data: question }, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await axios.post(
+      `${API_URL}/openai`,
+      {
+        data: prompt,
+        question: storyQuestion,
+        answer: storyAnswer,
+        background: storyBackground,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error submitting question to OpenAI:", error);
@@ -44,14 +93,28 @@ export const submitQuestionToOpenAI = async (question: string): Promise<string> 
   }
 };
 
-export const submitAnswerToOpenAI = async (question: string): Promise<string> => {
+export const submitAnswerToOpenAI = async (
+  prompt: string,
+  storyQuestion: string,
+  storyAnswer: string,
+  storyBackground: string | null
+): Promise<string> => {
   try {
-    const response = await axios.post(`${API_URL}/openai/answer`, { data: question }, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await axios.post(
+      `${API_URL}/openai/answer`,
+      {
+        data: prompt,
+        question: storyQuestion,
+        answer: storyAnswer,
+        background: storyBackground,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.error("Error submitting question to OpenAI:", error);
-    throw new Error("Failed to submit question to OpenAI");
+    console.error("Error submitting answer to OpenAI:", error);
+    throw new Error("Failed to submit answer to OpenAI");
   }
 };

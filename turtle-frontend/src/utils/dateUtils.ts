@@ -15,5 +15,12 @@ export const getDaysInMonth = (date: Date): number => {
   export const toKSTISOStringFull = (date: Date): string  => {
     const offset = 9 * 60 * 60 * 1000; // KST는 UTC+9
     const kstDate = new Date(date.getTime() + offset);
-    return kstDate.toISOString(); // 'YYYY-MM-DD' 형식 반환
+    return kstDate.toISOString(); 
   }
+
+  export const toKSTMonthString = (date: Date): string => {
+    const offset = 9 * 60 * 60 * 1000; // KST는 UTC+9
+    const kstDate = new Date(date.getTime() + offset);
+    return kstDate.toISOString().slice(0, 7); // 'YYYY-MM' 형식 반환
+  };
+  

@@ -87,7 +87,7 @@ pub async fn fetch_stories_from_db(db_pool: &PgPool) -> Result<Vec<Story>, sqlx:
 
     let stories = sqlx::query_as::<_, Story>(
         r#"
-        SELECT id, question, answer, background, date, success_count, rating, hint1, hint2
+        SELECT id, title, question, answer, background, date, success_count, rating, hint1, hint2
         FROM stories
         WHERE date = $1::date
         "#,

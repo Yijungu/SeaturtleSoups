@@ -1,42 +1,33 @@
+// components/HintModal.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "../../styles/problem/HintModal.module.scss";
-import { fetchHints } from "@/app/api/qnaApi";
 
 interface HintModalProps {
+  id: number;
   isOpen: boolean;
   onRequestClose: () => void;
+  hint1: string | null;
+  hint2: string | null;
 }
 
-const HintModal: React.FC<HintModalProps> = ({ isOpen, onRequestClose }) => {
+const HintModal: React.FC<HintModalProps> = ({ id, hint1, hint2, isOpen, onRequestClose }) => {
   const [openedHints, setOpenedHints] = useState<boolean[]>([false, false]);
   const [updatedHints, setUpdatedHints] = useState<boolean[]>([false, false]);
-  const [hints, setHints] = useState<string[]>(["", ""]); // 힌트 상태 정의
+
+  const storyKey = `story_${id}`;
 
   useEffect(() => {
-    // 로컬 스토리지에서 상태 복원
-    const storedOpenedHints = JSON.parse(localStorage.getItem("openedHints") || "[false, false]");
-    const storedUpdatedHints = JSON.parse(localStorage.getItem("updatedHints") || "[false, false]");
+    // Load hint states from local storage
+    const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
 
-    // 상태 초기화
-    setOpenedHints(storedOpenedHints);
-    setUpdatedHints(storedUpdatedHints);
-
-    // 힌트 데이터 로드
-    const loadHints = async () => {
-      try {
-        const fetchedHints = await fetchHints();
-        setHints([fetchedHints.hint1, fetchedHints.hint2]);
-      } catch (error) {
-        console.error("Error fetching hints: ", error);
-      }
-    };
-
-    loadHints();
-  }, []);
+    // Set initial hint state
+    setOpenedHints(storyData.openedHints || [false, false]);
+    setUpdatedHints(storyData.updatedHints || [false, false]);
+  }, [storyKey]);
 
   const toggleHint = (index: number) => {
     const newOpenedHints = [...openedHints];
@@ -49,13 +40,23 @@ const HintModal: React.FC<HintModalProps> = ({ isOpen, onRequestClose }) => {
       newUpdatedHints[index] = true;
       setUpdatedHints(newUpdatedHints);
 
-      const openedHintCount = Number(localStorage.getItem("openedHintCount")) || 0;
-      localStorage.setItem("openedHintCount", (openedHintCount + 1).toString());
+      const storyData = JSON.parse(localStorage.getItem(storyKey) || "{}");
+      const openedHintCount = storyData.openedHintCount || 0;
+
+      if (!storyData.state){
+        storyData.openedHintCount = openedHintCount + 1;
+      }
+      // Save updated data to local storage
+      localStorage.setItem(storyKey, JSON.stringify(storyData));
     }
 
-    // 로컬 스토리지에 상태 저장
-    localStorage.setItem("openedHints", JSON.stringify(newOpenedHints));
-    localStorage.setItem("updatedHints", JSON.stringify(newUpdatedHints));
+    // Save hint states within the story-specific storage
+    const updatedStoryData = {
+      ...JSON.parse(localStorage.getItem(storyKey) || "{}"),
+      openedHints: newOpenedHints,
+      updatedHints: newUpdatedHints,
+    };
+    localStorage.setItem(storyKey, JSON.stringify(updatedStoryData));
   };
 
   return (
@@ -69,7 +70,7 @@ const HintModal: React.FC<HintModalProps> = ({ isOpen, onRequestClose }) => {
       <h2 className={styles.title}>힌트 목록</h2>
 
       <div className={styles.hintButtons}>
-        {hints.map((hint, index) => (
+        {[hint1, hint2].map((hint, index) => (
           <AnimatePresence key={index}>
             {openedHints[index] ? (
               <motion.div
