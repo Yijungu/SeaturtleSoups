@@ -3,7 +3,6 @@
 import styles from "../../styles/thanks/PlaySummary.module.scss";
 import CopyButton from "./CopyButton";
 import { useState, useEffect } from "react";
-import { isSameDay } from "../../helpers/dateHelpers";
 import WarehouseButton from "../common/WarehouseButton";
 
 interface PlaySummaryProps {
@@ -29,6 +28,7 @@ const PlaySummary: React.FC<PlaySummaryProps> = ({ id }) => {
     const storedSuccessProblems = JSON.parse(
       localStorage.getItem("successProblem") || "[]"
     );
+    setWork(localStorage.getItem("state")==="correct");
     const storedGiveUpProblems = JSON.parse(
       localStorage.getItem("giveupProblem") || "[]"
     );
@@ -80,7 +80,7 @@ const PlaySummary: React.FC<PlaySummaryProps> = ({ id }) => {
           <div className={styles.line}>
             {work
               ? `${nickname}님 축하합니다! ${correctAnswers}번째 정답을 맞추셨습니다!`
-              : `다음 문제를 노려보세요!`}
+              : `다른 문제를 노려보세요!`}
           </div>
           <p>{`오늘의 총 질문 수 : ${totalQuestionsAsked} 사용한 힌트 수 : ${hintCount}`}</p>
           <p>{`정답 횟수: ${correctAnswers} / 포기 횟수: ${giveUpCount}`}</p>

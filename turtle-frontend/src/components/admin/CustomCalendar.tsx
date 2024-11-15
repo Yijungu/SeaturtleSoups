@@ -6,6 +6,7 @@ import DateModal from "../../components/admin/DateModal"; // 모달 컴포넌트
 import { getDaysInMonth, getFirstDayOfMonth, toKSTISOString } from "../../utils/dateUtils";
 interface Story {
   id: number;
+  title: string;
   question: string;
   answer: string;
   hint1: string;

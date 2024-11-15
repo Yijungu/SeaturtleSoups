@@ -7,7 +7,6 @@ import {
   submitAnswerToOpenAI,
 } from "../../app/api/qnaApi";
 import styles from "../../styles/problem/TextInput.module.scss";
-import { isSameDay } from "../../helpers/dateHelpers";
 import { toKSTISOStringFull } from "../../utils/dateUtils";
 
 interface TextInputProps {

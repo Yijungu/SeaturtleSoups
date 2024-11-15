@@ -23,23 +23,20 @@ export default function AIAnswer({ id }: AIAnswerProps) {
         console.warn("No storyQueue found in localStorage.");
         return;
       }
-  
-      try {
-        const storyQueue = JSON.parse(storedStoryQueue);
-        const story = storyQueue.find((item: { id: number }) => item.id === Number(id));
-        if (story) {
-          setAnswer(story.answer || "답변이 존재하지 않습니다.");
-        } 
-      } catch (err) {
-        
-      
-      } 
+
+      const storyQueue = JSON.parse(storedStoryQueue);
+      const story = storyQueue.find(
+        (item: { id: number }) => item.id === Number(id)
+      );
+      if (story) {
+        setAnswer(story.answer || "답변이 존재하지 않습니다.");
+      }
     };
 
     const fetchUserAnswer = () => {
       const storyData = JSON.parse(localStorage.getItem(`story_${id}`) || "{}");
       const fetchedAnswer = storyData.userAnswer || null;
-      setMarginTop( !fetchedAnswer ? 70 : 15);
+      setMarginTop(!fetchedAnswer ? 70 : 15);
     };
 
     fetchAnswer();

@@ -1,7 +1,6 @@
 import Modal from "react-modal";
 import styles from "../../styles/thanks/RatingModal.module.scss";
 import { useState } from "react";
-import { addRating } from "../../app/api/thanks";
 
 interface RatingModalProps {
   isOpen: boolean;
@@ -13,7 +12,6 @@ export default function RatingModal({ isOpen, closeRating }: RatingModalProps) {
   const handleClose = async () => {
     closeRating(starFilled);
     localStorage.setItem("rating", starFilled.toString());
-    await addRating(starFilled);
   };
   return (
     <Modal

@@ -4,7 +4,6 @@ import React from "react";
 import Modal from "react-modal";
 import styles from "../../styles/problem/GiveUpModal.module.scss";
 import { useRouter } from "next/navigation";
-import { isSameDay } from "../../helpers/dateHelpers";
 import { toKSTISOStringFull } from "../../utils/dateUtils";
 
 interface GiveUpModalProps {

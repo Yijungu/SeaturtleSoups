@@ -46,7 +46,7 @@ export default function Thanks() {
         onClose={() => setIsStatusModalOpen(false)}
       />
       <UserAnswer id={id}/>
-      <AIAnswer id={id} status={status} />
+      <AIAnswer id={id}/>
       <PlaySummary id={Number(id)} />
       <RatingWindow
         id={Number(id)}

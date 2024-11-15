@@ -10,6 +10,7 @@ import RefreshButton from "@/components/admin/RefreshButton";
 
 interface Story {
   id: number;
+  title: string;
   answer: string;
   question: string;
   date: string;

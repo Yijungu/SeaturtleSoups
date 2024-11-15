@@ -1,10 +1,8 @@
 // components/QuestionSection.tsx
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../../styles/problem/QuestionSection.module.scss";
-import { isSameDay } from "../../helpers/dateHelpers";
-import { toKSTISOStringFull } from "../../utils/dateUtils";
 
 interface QuestionSectionProps {
   question: string | null;

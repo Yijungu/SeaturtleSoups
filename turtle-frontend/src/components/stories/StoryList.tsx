@@ -3,11 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { fetchStoriesByMonth } from "../../app/api/stories";
 import styles from "../../styles/stories/StoryList.module.scss";
-import { addMonths, format } from "date-fns"; // date-fns 라이브러리 사용
+import { addMonths, format  } from "date-fns"; // date-fns 라이브러리 사용
 import { toKSTISOString } from "@/utils/dateUtils";
 import { useRouter } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
-import { Modal } from "@mui/material";
 import StoryModal from "./StoryModal";
 
 // StorySummary 타입 정의
@@ -22,13 +21,11 @@ interface StorySummary {
 
 const StoryList: React.FC = () => {
   const [stories, setStories] = useState<StorySummary[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [expandedId, setExpandedId] = useState<number | null>(null); // 확장된 항목 ID 관리
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
   const [giveupIds, setGiveUpIds] = useState<number[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalStory, setModalStory] = useState<StorySummary | null>(null);
 
   const router = useRouter();
@@ -56,21 +53,18 @@ const StoryList: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        setLoading(true);
         const data = await fetchStoriesByMonth(targetMonth);
 
         const filteredData = data
           .filter((story: StorySummary) => story.date <= today)
           .sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            (a : StorySummary, b : StorySummary) => new Date(b.date).getTime() - new Date(a.date).getTime()
           );
 
         setStories(filteredData);
       } catch (err) {
         setError("스토리 목록을 불러오는 중 오류가 발생했습니다.");
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -94,7 +88,6 @@ const StoryList: React.FC = () => {
     const toggleQuestion = (story: StorySummary) => {
     if (isMobile) {
       setModalStory(story);
-      setIsModalOpen(true);
     } else {
       setExpandedId(expandedId === story.id ? null : story.id);
     }
