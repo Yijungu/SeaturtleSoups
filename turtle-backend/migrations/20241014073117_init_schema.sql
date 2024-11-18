@@ -21,3 +21,18 @@ CREATE TABLE IF NOT EXISTS complaints (
     id SERIAL PRIMARY KEY,        -- 자동 증가 ID
     description TEXT NOT NULL     -- 불만 사항 내용
 );
+
+CREATE TABLE IF NOT EXISTS custom_stories (
+    id SERIAL PRIMARY KEY,
+    title TEXT,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    background TEXT,
+    success_count INT DEFAULT 0,
+    rating FLOAT DEFAULT 0.0,
+    hint1 TEXT NOT NULL,
+    hint2 TEXT NOT NULL,
+    creater_id TEXT NOT NULL,
+    creater_password TEXT NOT NULL,
+    is_reviewed BOOLEAN DEFAULT false -- 검토 여부 필드 추가
+);

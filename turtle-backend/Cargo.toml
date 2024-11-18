@@ -22,6 +22,7 @@ serde_json = "1.0"
 aws-config = "1.5"  # 최신 안정 버전 사용
 aws-sdk-secretsmanager = "1.5"
 regex = "1.7"
+bcrypt = "0.14"
 
 [build-dependencies]
 sqlx = { version = "0.6", features = ["offline"] }

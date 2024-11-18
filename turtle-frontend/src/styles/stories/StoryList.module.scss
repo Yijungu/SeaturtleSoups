@@ -16,7 +16,7 @@
   .container {
     max-width: 900px;
     padding: 20px;
-    background-color: var(--background);
+    // background-color: var(--background);
     border-radius: 12px;
     overflow-x: auto;
     display: flex;
@@ -44,6 +44,14 @@
     height: 30px;
     border-radius: 30px;
     color: var(--background);
+    position: relative;
+  }
+
+  .navButtonLimited {
+    width: 35px;
+    height: 35px;
+    font-size: 17px;
+    background-color: var(--accent-color);
   }
   
   .pageTitleHeader {
@@ -72,9 +80,9 @@
   
   .list {
     display: flex;
-    flex-direction: column;
     gap: 15px;
     margin-top: 10px;
+    position : relative;
   }
   
   .listBox {

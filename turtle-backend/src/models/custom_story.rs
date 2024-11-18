@@ -10,8 +10,9 @@ pub struct CustomStory {
     pub background: Option<String>,
     pub success_count: Option<i32>,
     pub rating: Option<f32>,
-    pub hint1: String,  // Option으로 수정
-    pub hint2: String, 
+    pub hint1: String,
+    pub hint2: String,
     pub creater_id: String,
     pub creater_password: String,
+    pub is_reviewed: bool, // 검토 여부 추가
 }
