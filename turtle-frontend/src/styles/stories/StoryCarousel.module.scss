@@ -1,0 +1,421 @@
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  perspective: 1000px; /* 3D 효과 */
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.carouselButton{
+  position: absolute;
+  left : 130px;
+  top : 10px;
+  flex-direction: row;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+.notSuccessButton{
+  font-family: 'HSBombaram';
+  text-shadow: 0px 0px 10px  #E40000;
+  &.active{
+    color:#E40000;
+  }
+  width: 65px;
+  height: 35px;
+  border-radius: 10px;
+  background: #1C1D1D;
+  user-select: none; /* 텍스트 드래그 방지 */
+  cursor: pointer;   /* 버튼 느낌을 주기 위해 커서 스타일 */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.successButton{
+  font-family: 'HSBombaram';
+  text-shadow: 0px 0px 10px  #00B469;
+  &.active{
+    color:#00B469;
+  }
+  text-align: center;
+  width: 65px;
+  height: 35px;
+  border-radius: 10px;
+  background: #1C1D1D;
+  user-select: none; /* 텍스트 드래그 방지 */
+  cursor: pointer;   /* 버튼 느낌을 주기 위해 커서 스타일 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.carousel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  display: flex;
+  align-items: end;
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  cursor: pointer;
+  border-radius: 10px;
+  perspective: 1000px; /* Add perspective to the card */
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.thumbnailImage{
+  border-radius: 5px;
+}
+.thumbnailImageBack{
+  position: absolute;
+  border-radius: 5px;
+  top : 0;
+  left : 0;
+  opacity: 0.2;
+  z-index: -10;;
+  max-width: none;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 270px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  animation: fadeInUp 0.5s ease-in-out;
+
+  &.fadeOut {
+    animation: fadeOutUp 0.5s ease-in-out;
+  }
+}
+
+.cardInner.flipped {
+  transform: rotateY(180deg);
+}
+
+.cardContent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  /* Remove z-index to prevent stacking issues */
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.front {
+  border-radius: 10px;
+  background: #222;
+  color: #fff;
+  flex-direction: column;
+  gap : 5px;
+  font-size: 11px;
+  font-family: 'HSBombaram';
+}
+
+.front[data-offset="2"][data-success-problem="true"] {
+  box-shadow: 0px 0px 30px 5px #00B469; /* 검은색 그림자 */
+  border: 0.5px solid #00B469;
+}
+
+.front[data-offset="2"][data-success-problem="false"] {
+  box-shadow: 0px 0px 30px 5px #000000; /* 검은색 그림자 */
+  border: 0.5px solid #E40000;
+}
+
+.back {
+  border-radius: 10px;
+  color: #ffcc00;
+  transform: rotateY(180deg); /* Rotate the back face */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: #000;
+}
+
+.back[data-success-problem="false"]{
+  border: 0.5px solid #E40000;
+}
+
+.back[data-success-problem="true"]{
+  box-shadow: 0px 0px 30px 5px #00B469; /* 검은색 그림자 */
+  border: 0.5px solid #00B469;
+}
+
+.successMark{
+  position: absolute;
+  left : 0px;
+  top : 0px;
+  font-size: 13px;
+  padding-top: 5px;
+  width: 70px; // 직사각형 부분의 너비
+  height: 35px; // 직사각형 부분의 높이
+  background-color: #222; // 검은색 배경
+  clip-path: polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%); // 모양 정의
+  text-align: center;
+  align-content: center;
+}
+
+.gradientOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgb(0, 0, 0) 5%, rgba(230, 0, 0, 0) 25%);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.cardsContainer{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Adjust transforms for the card positions */
+.card[data-offset="2"] {
+  transform: translateX(0) translateZ(150px);
+}
+
+.card[data-offset="1"] {
+  transform: translateX(-180px) translateZ(100px) rotateY(25deg);
+  opacity: 0.35;
+  z-index: 4;
+}
+
+.card[data-offset="3"] {
+  transform: translateX(180px) translateZ(100px) rotateY(-25deg);
+  opacity: 0.35;
+  z-index: 4;
+}
+
+.card[data-offset="0"] {
+  transform: translateX(-360px) translateZ(50px) rotateY(30deg);
+  opacity: 0.2;
+  z-index: 3;
+}
+
+.card[data-offset="4"] {
+  transform: translateX(360px) translateZ(50px) rotateY(-30deg);
+  opacity: 0.2;
+  z-index: 3;
+}
+
+
+/* 버튼 스타일 */
+.prevButton,
+.nextButton {
+  background-color: #000; /* 어두운 배경 */
+  color: #ff0000; /* 섬뜩한 빨간색 텍스트 */
+  border: 2px solid #ff0000; /* 붉은색 테두리 */
+  font-size: 1.5rem; /* 큼직한 버튼 크기 */
+  font-weight: bold;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* 둥근 버튼 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); /* 빨간 빛이 나는 그림자 */
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  top: 50%;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+  background-color: #ff0000; /* 빨간색으로 변화 */
+  color: #000; /* 글자색 반전 */
+  box-shadow: 0 0 20px rgba(255, 0, 0, 1); /* 더 강렬한 빨간 빛 */
+  transform: scale(1.1); /* 약간 확대 */
+}
+
+.prevButton::after,
+.nextButton::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(255, 0, 0, 0.2), transparent);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.prevButton:hover::after,
+.nextButton:hover::after {
+  opacity: 1; /* 호버 시 빛나는 효과 */
+}
+
+.prevButton:active,
+.nextButton:active {
+  background-color: #660000; /* 클릭 시 더 어두운 붉은색 */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); /* 안으로 들어가는 그림자 */
+}
+
+.prevButton::before,
+.nextButton::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.2), transparent);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.prevButton:hover::before,
+.nextButton:hover::before {
+  opacity: 1; /* 버튼 주위의 음산한 그림자 */
+}
+
+.prevButton {
+  left: 10px;
+}
+
+.nextButton {
+  right: 10px;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+  background-color: #ffcc00;
+  color: #111;
+}
+
+.cardDetails {
+  text-align: center;
+  height: 100%;
+  padding: 20px 10px;
+  gap: 10px;
+  width: 100%;
+}
+
+.cardTitleFront {
+  position: absolute;
+  bottom: 25px;
+  font-size: 14px;
+  font-weight: 550;
+  margin-top: 5px;
+  color: #ffecd2f5;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  font-family: 'HSBombaram'; /* OKGUNG 폰트 사용 */
+}
+
+.cardTitleBack {
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 15px;
+  color: #ffecd2;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  font-family: 'HSBombaram';
+}
+
+.cardQuestion {
+  border-radius: 15px;
+  background-color: #585858;
+  font-size: 11px;
+  margin-top: 25px;
+  color: #f8f8f8;
+  font-family: 'HSBombaram';
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardMeta {
+  font-size: 12px;
+  color: #c3c3c3;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cardStats {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardSuccess {
+  font-weight: bold;
+  color: #a8ff78;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.cardRating {
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+}
+
+.cardDate {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 8px;
+  font-style: italic;
+  color: #bcbcbc;
+  font-family: 'HSBombaram';
+}
+
+.cardCreator {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 8px;
+  font-style: italic;
+  color: #bcbcbc;
+  font-family: 'HSBombaram';
+}
+

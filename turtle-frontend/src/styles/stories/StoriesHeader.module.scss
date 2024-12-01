@@ -1,0 +1,16 @@
+@font-face {
+  font-family: 'HSBombaram21-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/HSBombaram21-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.pageTitleHeader {
+  margin-top: 100px;
+  margin-bottom: 30px;
+  font-size: 2.5rem; /* 큰 글자 크기 */
+  font-family: 'HSBombaram21-Regular'; /* OKGUNG 폰트 사용 */
+  text-align: center; /* 중앙 정렬 */
+  color: #ffffff; /* 흰색 글자 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 텍스트 그림자 */
+}

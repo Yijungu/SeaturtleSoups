@@ -12,3 +12,13 @@ export async function fetchStoriesByMonth(month : string) {
     throw new Error("스토리 목록을 불러오는 중 오류가 발생했습니다.");
   }
 }
+
+export async function fetchReviewedStories() {
+  try {
+    const response = await axios.get(`${API_URL}/stories/reviewed`);
+    return response.data; // 검토된 스토리 데이터 반환
+  } catch (error) {
+    console.error("Failed to fetch reviewed stories:", error);
+    throw new Error("검토된 스토리 목록을 불러오는 중 오류가 발생했습니다.");
+  }
+}

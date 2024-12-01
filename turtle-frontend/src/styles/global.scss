@@ -2,6 +2,20 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@font-face {
+  font-family: 'HSBombaram21-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/HSBombaram21-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HSBombaram';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 라이트모드 색상 */
 :root {
   /* 공통 색상 */
@@ -171,7 +185,7 @@ html {
 }
 
 body {
-  background-image: url('../../public/images/Background.jpg'); /* 배경 이미지 경로 */
+  background-image: url('../../public/images/Background.png'); /* 배경 이미지 경로 */
   background-size: cover; /* 화면 전체를 덮도록 설정 */
   background-repeat: no-repeat; /* 이미지 반복 제거 */
   background-position: center center; /* 이미지 가운데 정렬 */

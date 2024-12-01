@@ -1,13 +1,15 @@
 "use client";
 
-import StoryList from "@/components/stories/StoryList";
 import styles from "../../styles/StoryPage.module.scss";
 import { motion } from "framer-motion";
 import Nickname from "@/components/common/Nickname";
 import LogoButtonLeft from "@/components/common/LogoButtonLeft";
 import Footer from "@/components/common/Footer";
+import StoryCarousel from "@/components/stories/StoryCarousel";
+import StoriesHeader from "@/components/stories/StoriesHeader";
 
 export default function Stories() {
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -19,9 +21,9 @@ export default function Stories() {
       }}
     >
       <div className={styles.container}>
-        <LogoButtonLeft />
-        <Nickname />
-        <StoryList />
+        {/* <Nickname /> */}
+        <StoriesHeader/>
+        <StoryCarousel />
         <Footer />
       </div>
     </motion.div>
