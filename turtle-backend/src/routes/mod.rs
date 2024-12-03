@@ -8,6 +8,8 @@ mod auth_routes;
 mod health_routes;
 mod complaint_routes;
 mod pending_story_routes;
+mod user_routes;
+mod captcah_routes;
 
 pub fn init_routes(cfg: &mut web::ServiceConfig) {
     story_routes::story_routes(cfg);
@@ -18,5 +20,7 @@ pub fn init_routes(cfg: &mut web::ServiceConfig) {
     health_routes::health_routes(cfg);
     complaint_routes::complaint_routes(cfg);
     pending_story_routes::pending_story_routes(cfg);
+    user_routes::user_routes(cfg);
+    captcah_routes::captcah_routes(cfg);
 }
 

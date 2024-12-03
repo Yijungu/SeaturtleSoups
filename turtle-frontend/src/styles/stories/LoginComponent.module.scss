@@ -1,0 +1,91 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2e2e2e;
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+    position: absolute;
+    top: 40px;
+    right: 0px;
+  }
+
+  .loginContainer {
+    display: flex;
+    flex-direction: row;
+    gap : 10px;
+  }
+  
+  .inputContainer {
+    width: 100%;
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 5px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1c1c1c;
+    color: #ccc;
+    font-size: 16px;
+    font-family: "HSBombaram";
+    font-size: 12px;
+    user-select: none; /* 드래그 방지 */
+  }
+  
+  .inputField::placeholder {
+    color: #777;
+  }
+  
+  .loginButton {
+    width: 40%;
+    font-family: "HSBombaram";
+    font-size: 12px;
+    user-select: none; /* 드래그 방지 */
+
+    button {
+      width: 100%;
+      padding: 20px 10px;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  
+      &:hover {
+        background-color: #555;
+      }
+    }
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .optionButton {
+    flex: 1;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "HSBombaram";
+    font-size: 10px;
+    user-select: none; /* 드래그 방지 */
+
+    &:hover {
+      background-color: #555;
+    }
+  }
+  

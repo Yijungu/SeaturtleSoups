@@ -37,3 +37,13 @@ CREATE TABLE IF NOT EXISTS pending_stories (
     thumbnail TEXT,
     FOREIGN KEY (story_id) REFERENCES stories (id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id TEXT PRIMARY KEY,              -- 고유 사용자 ID (자동 증가)
+    username VARCHAR(255) NOT NULL,           -- 사용자 이름
+    discriminator INT NOT NULL,               -- 닉네임 태그 (4자리 숫자)
+    password_hash TEXT NOT NULL,              -- 비밀번호 해시
+    security_code VARCHAR(8) NOT NULL,        -- 8자리 보안 코드
+    created_at TIMESTAMP NOT NULL,            -- 계정 생성 시간
+    UNIQUE (username, discriminator)          -- username과 discriminator 조합의 고유성 보장
+);

@@ -1,0 +1,32 @@
+.loginModalButton {
+  position: absolute;
+  width: 150px;
+  height: 40px;
+  top: 15px;
+  right: 173px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.loginModalButtonLogin {
+  position: absolute;
+  right: 0px;
+  padding: 5px 10px;
+  font-size: 13.5px;
+  font-family: "HSBombaram";
+  width: 65px;
+  text-align: center;
+  user-select: none; /* 드래그 방지 */
+}
+
+.loginModalButtonV {
+  position: absolute;
+  right: 70px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-family: "HSBombaram";
+  width: 65px;
+  user-select: none; /* 드래그 방지 */
+}

@@ -129,7 +129,6 @@ const StoryCarousel: React.FC = () => {
         </div>
         {filteredStories.map((story, index) => {
           const offset = index - currentIndex;
-          console.log(offset);
           const isSuccess = successProblemSet.has(story.id); // 필요 시만 계산
           return (
             <StoryCard

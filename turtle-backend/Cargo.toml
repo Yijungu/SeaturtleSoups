@@ -23,6 +23,10 @@ aws-config = "1.5"  # 최신 안정 버전 사용
 aws-sdk-secretsmanager = "1.5"
 regex = "1.7"
 bcrypt = "0.14"
+rand = "0.8"
+captcha = "0.0.9"
+image = "0.23"
+base64 = "0.21"
 
 [build-dependencies]
 sqlx = { version = "0.6", features = ["offline"] }

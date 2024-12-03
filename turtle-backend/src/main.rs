@@ -11,6 +11,7 @@ use tokio::task;
 use turtle_backend::models::{Response, Story};
 use turtle_backend::routes::init_routes;
 use turtle_backend::services::reponse_saver::batch_save_to_db;
+use turtle_backend::handlers::CaptchaStore;
 
 
 pub type StoryData = Arc<Mutex<Vec<Story>>>;
@@ -60,7 +61,9 @@ async fn main() -> std::io::Result<()> {
     });
 
     let db_pool_data = web::Data::new(db_pool); // 수정된 부분
-
+    
+    let captcha_store = CaptchaStore::new();
+    
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -71,6 +74,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(cors)
             .app_data(db_pool_data.clone()) // 수정된 부분
+            .app_data(web::Data::new(captcha_store.clone())) // 수정된 부분
             .app_data(web::Data::new(response_queue.clone()))
             .configure(init_routes)
     })
