@@ -1,15 +1,15 @@
 use crate::models::story::Story;
-use std::collections::HashMap;
 use actix_web::{delete, get, post, web, HttpResponse, Responder};
 use chrono::{Datelike, Duration, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
+use std::collections::HashMap;
 use std::str::FromStr;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 type StoryList = Arc<Mutex<Vec<Story>>>;
-use crate::services::story_saver::update_story_data_from_db;
 use crate::services::openai_service::fetch_background_from_openai;
+use crate::services::story_saver::update_story_data_from_db;
 
 #[derive(Serialize)] // JSON 응답을 위해 Serialize 파생 사용
 struct Hints {
@@ -78,10 +78,7 @@ async fn get_all_stories(pool: web::Data<PgPool>) -> impl Responder {
 }
 
 #[get("/story/today")]
-async fn get_story_by_today(
-    pool: web::Data<PgPool>,
-) -> impl Responder {
-
+async fn get_story_by_today(pool: web::Data<PgPool>) -> impl Responder {
     // 데이터베이스에서 해당 id의 Story 데이터를 가져오는 쿼리
     let result = sqlx::query_as!(
         Story,
@@ -153,17 +150,31 @@ async fn get_stories_by_month(
         None => return HttpResponse::BadRequest().body("Month parameter is required"),
     };
 
-    // SQL 쿼리에서 특정 월의 스토리만 선택
+    // 주어진 월의 첫째 날과 다음 달 첫째 날 계산
+    let first_day_str = format!("{}-01", month);
+    let first_day = match NaiveDate::parse_from_str(&first_day_str, "%Y-%m-%d") {
+        Ok(d) => d,
+        Err(_) => return HttpResponse::BadRequest().body("Invalid month format"),
+    };
+
+    let next_month = if first_day.month() == 12 {
+        NaiveDate::from_ymd_opt(first_day.year() + 1, 1, 1).unwrap()
+    } else {
+        NaiveDate::from_ymd_opt(first_day.year(), first_day.month() + 1, 1).unwrap()
+    };
+
+    // 날짜 범위를 이용해 특정 월의 스토리 선택
     let result = sqlx::query_as!(
-        StorySummary,  // 요약 정보를 담을 구조체
+        StorySummary,
         r#"
-        SELECT 
-            id, title, question, date, success_count, 
+        SELECT
+            id, title, question, date, success_count,
             rating::float4 AS rating
         FROM stories
-        WHERE to_char(date, 'YYYY-MM') = $1
+        WHERE date >= $1 AND date < $2
         "#,
-        month
+        first_day,
+        next_month
     )
     .fetch_all(pool.get_ref())
     .await;
@@ -192,12 +203,15 @@ async fn insert_story_to_db(
         Err(_) => return Ok(HttpResponse::BadRequest().body("Invalid date format")),
     };
 
-
     if story.background.is_none() {
         // Fetch background data from OpenAI
         match fetch_background_from_openai(&story.question, &story.answer).await {
             Ok(background) => story.background = Some(background),
-            Err(_) => return Ok(HttpResponse::InternalServerError().body("Failed to fetch background data")),
+            Err(_) => {
+                return Ok(
+                    HttpResponse::InternalServerError().body("Failed to fetch background data")
+                )
+            }
         }
     }
 
