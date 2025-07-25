@@ -1,7 +1,7 @@
 use actix_web::{get, web, HttpResponse, Responder};
-use chrono::{NaiveDate, NaiveDateTime};
+use chrono::{Duration, NaiveDate, NaiveDateTime};
 use serde::Serialize;
-use sqlx::{PgPool, FromRow};
+use sqlx::{FromRow, PgPool};
 
 // 데이터베이스에서 가져올 응답 모델 정의
 #[derive(Serialize, FromRow)]
@@ -26,10 +26,15 @@ async fn get_responses_by_date(
         Err(_) => return HttpResponse::BadRequest().body("Invalid date format"),
     };
 
-    // 데이터베이스에서 해당 날짜의 응답들을 가져오는 쿼리 실행
-    let query = "SELECT * FROM responses WHERE DATE(created_at) = $1";
+    // 다음 날 계산하여 범위 조건으로 조회
+    let next_day = parsed_date
+        .succ_opt()
+        .unwrap_or(parsed_date + chrono::Duration::days(1));
+
+    let query = "SELECT * FROM responses WHERE created_at >= $1 AND created_at < $2";
     let responses: Vec<Response> = match sqlx::query_as::<_, Response>(query)
         .bind(parsed_date)
+        .bind(next_day)
         .fetch_all(pool.get_ref())
         .await
     {
